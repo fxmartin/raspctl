@@ -158,4 +158,4 @@ def index():
 
 
 
-run(host='localhost', port=8086, reloader=True)
+run(host='0.0.0.0', port=8086, reloader=True)
