@@ -4,7 +4,9 @@
 <hr />
 
 <form action="/save_configuration" class="form-horizontal" method="post">
+
 	<h4>Help/Debug Information</h4>
+
 	<div class="control-group">
 		<label class="control-label" for="SHOW_DETAILED_INFO">Show detailed information</label>
 		<div class="controls">
@@ -29,6 +31,8 @@
 		</div>
 	</div>
 
+
+	<h4>Commands</h4>
 	<div class="control-group">
 		<label class="control-label" for="COMMAND_EXECUTION">Commands execution</label>
 		<div class="controls">
