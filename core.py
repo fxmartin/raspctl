@@ -133,13 +133,18 @@ def take_picture():
     return "done"
 
 
-@route('/')
-def index():
+@route('/commands')
+def commands():
     helpers.current_tab("commands")
     c = conn.cursor()
     query = "SELECT id, class, action, command FROM execute order by class, action asc"
     rows = helpers.multi_dummy(c.execute(query))
-    return template('index', rows=rows)
+    return template('commands', rows=rows)
+
+@get('/')
+def index():
+    return "This is the index"
+    #return template("index")
 
 
 run(host='0.0.0.0', port=8086, reloader=True)
