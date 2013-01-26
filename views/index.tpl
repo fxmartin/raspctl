@@ -13,11 +13,15 @@
 	<p class="text-error"> Be very careful when using this tool because ANY command can be executed, even "rm -rf /". The UID (User ID) of the one who is running the web application will be used. It is strongly recommended to NOT use root user for obvious reasons. Take care.  </p>
 
 	<p>Let's explain each item:</p>
-	<ul>
-		<li>Class: Used for defining a generic name. Same as Category. Just for being able to group all the commands by the same subject or type.</li>
-		<li>Action: Just a descriptive name of the action this command will perform. Only letters, numbers and the '_' character can be used (because it must be URL friendly in order to be used in the HTTP API)</li>
-		<li>Command: The command itself. This command will be executed in the shell. The command can receive parameters too (not true, is in my TODO list)</li>
-	</ul>
+
+	<dl class="dl-horizontal">
+		<dt>Class</dt>
+		<dd>Used for defining a generic name. Same as Category. Just for being able to group all the commands by the same subject or type.</dd>
+		<dt>Action </dt>
+		<dd> Just a descriptive name of the action this command will perform. Only letters, numbers and the '_' character can be used (because it must be URL friendly in order to be used in the HTTP API)</dd>
+		<dt>Command</dt>
+		<dd>The command itself. This command will be executed in the shell. The command can receive parameters too (not true, is in my TODO list)</dd>
+	</dl>
 
 	<p> The URL API is very easy to use. You just have to do a request to: </p>
 

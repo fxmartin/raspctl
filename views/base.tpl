@@ -1,4 +1,4 @@
-<html>
+<html style="overflow-y: scroll">
 <head>
 	<title> RaspCTL</title>
 	<link href="/static/css/bootstrap.min.css" rel="stylesheet" media="screen">
