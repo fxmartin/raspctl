@@ -1,11 +1,10 @@
 from bottle import route, run, template, request, static_file, redirect, post, get
 import bottle
+import config
+import helpers
 import json
 import sqlite3
 import subprocess
-import config
-from helpers import Dummy, multi_dummy, compose_command
-
 
 conn = sqlite3.connect('raspctl.db')
 config.load_config(conn)
@@ -41,7 +40,7 @@ def _execute(_class, action):
     default_value = result[DEFAULT_VALUE]
     value = request.params.get('value', default_value)
 
-    command = compose_command(result[COMMAND], value, result[EXTRA])
+    command = helpers.compose_command(result[COMMAND], value, result[EXTRA])
 
     subprocess.call(command, shell=True)
     return "Executing: %s" % command
@@ -63,7 +62,7 @@ def command_edit(id_=None):
     query = "SELECT id, class, action, command, extra from execute where id = ?"
     data = c.execute(query, (id_,))
 
-    data = Dummy(data)
+    data = helpers.Dummy(data)
 
     return template('edit', data=data)
 
@@ -120,10 +119,15 @@ def config_save():
 
 @route('/webcam')
 def webcam():
-    return template('webcam')
+    fswebcam_is_installed = helpers.check_program_is_installed("fswebcam")
+    print fswebcam_is_installed
+    return template('webcam', fswebcam_is_installed=fswebcam_is_installed)
 
 @get('/take_picture')
 def take_picture():
+    if not helpers.check_program_is_installed("fswebcam"):
+        return "Is seems you don't have fswebcam installed in your system. Install it using apt-get or aptitude and add your user to VIDEO group."
+
     command = "fswebcam -r 640x480 -S 3 ./static/img/webcam_last.jpg"
     print subprocess.call(command, shell=True)
     return "done"
@@ -133,9 +137,7 @@ def take_picture():
 def index():
     c = conn.cursor()
     query = "SELECT id, class, action, command FROM execute order by class, action asc"
-    rows=multi_dummy(c.execute(query))
-    dum = rows[0]
-
+    rows = helpers.multi_dummy(c.execute(query))
     return template('index', rows=rows)
 
 

@@ -1,3 +1,6 @@
+import subprocess
+
+
 # SOME HELPER OBJECTS
 class Dummy(object):
     def __init__(self, cursor, data=None, text=""):
@@ -42,3 +45,5 @@ def compose_command(command, value, extra):
 
     return command
 
+def check_program_is_installed(prg_name):
+    return bool(str(subprocess.call("which %s" % prg_name, shell=True)))
