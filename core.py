@@ -4,6 +4,7 @@ import json
 import sqlite3
 import subprocess
 import config
+from helpers import Dummy, multi_dummy, compose_command
 
 
 conn = sqlite3.connect('raspctl.db')
@@ -24,51 +25,6 @@ def get_favicon():
     return static_file('favicon.ico', root="./static/img")
 
 
-
-# SOME HELPER OBJECTS
-def multi_dummy(cursor):
-    result = []
-    for row in cursor:
-        result.append(Dummy(cursor, row))
-    return result
-
-class Dummy(object):
-    def __init__(self, cursor, data=None, text=""):
-        self.return_text = text
-
-        self.headers = map(lambda x: x[0], cursor.description)
-
-        if "class" in self.headers:
-            self.headers[self.headers.index("class")] = "class_"
-
-        self.data = cursor.fetchone() if not data else data
-        result = dict(zip(self.headers, self.data)) if self.data else {}
-
-        for k, v in result.items():
-            setattr(self, k, v)
-
-    def __getattr__(self,k):
-        return self.return_text
-
-
-def compose_command(command, value, extra):
-    try:
-        extra = json.loads(extra)
-    except:
-        extra = {"extra_parameters":{"color":None, "song":"good_morning_vietnam.mp3", "eyelet":None}}
-
-    params = extra.get('extra_parameters', [])
-
-    for param, default_value in params.items():
-        v_param = "$" + param.upper()
-        if default_value == None:
-            default_value = ""
-
-        command = command.replace(v_param, request.params.get(param.lower(), default_value))
-
-    return command
-
-
 ## HTTP HANDLERS
 def _execute(_class, action):
     c = conn.cursor()
@@ -86,8 +42,6 @@ def _execute(_class, action):
 
     subprocess.call(command, shell=True)
     return "Executing: %s" % command
-
-
 
 @route('/execute')
 def execute():
