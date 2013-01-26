@@ -1,1 +1,3 @@
 raspctl\.db$
+.*swp$
+.*pyc$
