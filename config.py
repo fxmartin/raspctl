@@ -25,7 +25,7 @@ def save_configuration(conn, conf):
     c.execute(query)
     result = c.fetchone()
     if not result:
-        query = "INSERT INTO config VALUES (?)"
+        query = "INSERT INTO config (json) VALUES (?)"
         c.execute(query, (json.dumps(conf),))
     else:
         try:
