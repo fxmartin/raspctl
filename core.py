@@ -1,4 +1,4 @@
-from bottle import route, run, template, request, static_file, redirect, post
+from bottle import route, run, template, request, static_file, redirect, post, get
 import bottle
 import json
 import sqlite3
@@ -117,6 +117,17 @@ def config_save():
 
     config.save_configuration(conn, conf)
     return redirect("/")
+
+@route('/webcam')
+def webcam():
+    return template('webcam')
+
+@get('/take_picture')
+def take_picture():
+    command = "fswebcam -r 640x480 -S 3 ./static/img/webcam_last.jpg"
+    print subprocess.call(command, shell=True)
+    return "done"
+
 
 @route('/')
 def index():
