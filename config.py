@@ -4,6 +4,7 @@ import sys
 default_config = {
     "SHOW_DETAILED_INFO": True,
     "SHOW_TODO":  True,
+    "COMMAND_EXECUTION": False,
 }
 
 def load_config(conn):

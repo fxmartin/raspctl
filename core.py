@@ -27,6 +27,9 @@ def get_favicon():
 
 ## HTTP HANDLERS
 def _execute(_class, action):
+    if config.COMMAND_EXECUTION == False:
+        return "The command execution is NOT available."
+
     c = conn.cursor()
     DEFAULT_VALUE, COMMAND, EXTRA = 0, 1, 2
     query = 'SELECT value, command, extra FROM execute WHERE class=? and action=?'
@@ -109,6 +112,7 @@ def config_save():
     conf = {
         "SHOW_DETAILED_INFO": bool_eval('SHOW_DETAILED_INFO'),
         "SHOW_TODO": bool_eval('SHOW_TODO'),
+        "COMMAND_EXECUTION": bool_eval('COMMAND_EXECUTION'),
     }
 
     config.save_configuration(conn, conf)
@@ -122,7 +126,6 @@ def index():
     dum = rows[0]
 
     return template('index', rows=rows)
-
 
 
 run(host='0.0.0.0', port=8086, reloader=True)

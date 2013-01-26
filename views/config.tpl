@@ -29,6 +29,19 @@
 		</div>
 	</div>
 
+	<div class="control-group">
+		<label class="control-label" for="COMMAND_EXECUTION">Commands execution</label>
+		<div class="controls">
+			<select name="COMMAND_EXECUTION">
+				<option value="True" {{"selected" if config.COMMAND_EXECUTION else ""}}>Enabled</option>
+				<option value="False" {{"selected" if not config.COMMAND_EXECUTION else ""}}>Disabled</option>
+			
+			</select>
+			<span class="text-error">Use it with care!</span>
+			<abbr title="Enables/Disables the execution of commands from the Web Interface or the HTTP API. Any command can be configured/executed. Be sure that only authorised personal can edit/execute commands.">Help</abbr>
+		</div>
+	</div>
+
 	<div class="form-actions">
 		<button type="submit" class="btn btn-primary">Save changes</button>
 	</div>
