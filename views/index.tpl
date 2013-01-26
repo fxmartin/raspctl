@@ -1,5 +1,35 @@
 %rebase base
 
+% import config
+
+
+
+<p> <i>Commands</i> section is used when you want to define some commands that will be executed on the Raspberry Pi. The commands can be executed either from the web interface or using a HTTP API. </p>
+
+% if config.SHOW_DETAILED_INFO:
+
+	<p class="text-error"> Be very careful when using this tool because ANY command can be executed, even "rm -rf /". The UID (User ID) of the one who is running the web application will be used. It is strongly recommended to NOT use root user for obvious reasons. Take care.  </p>
+
+	<p>Let's explain each item:</p>
+	<ul>
+		<li>Class: Used for defining a generic name. Same as Category. Just for being able to group all the commands by the same subject or type.</li>
+		<li>Action: Just a descriptive name of the action this command will perform. Only letters, numbers and the '_' character can be used (because it must be URL friendly in order to be used in the HTTP API)</li>
+		<li>Command: The command itself. This command will be executed in the shell. The command can receive parameters too (not true, is in my TODO list)</li>
+	</ul>
+
+	<p> The URL API is very easy to use. You just have to do a request to: </p>
+
+	<p> http://your-rasperry-ip<b>/execute?class=CLASS&amp;action=ACTION&amp;param1=FOO</b> </p>
+
+	<p> Where CLASS and ACTION are required fields and will be used for searching the command, if any match is found, the command will be executed passing the given parameters </p>
+
+
+% end
+% if config.SHOW_TODO:
+	<p> <b class="text-error">TODO</b>: Support a way of enabling/disabling the commands section thru a configuration file or something like that. </p>
+% end
+
+
 <br />
 <a class="btn" href="/command/edit/new" title="New element"> <i class="icon-plus-sign"></i> New command </a>
 <br /> <br /> <br />

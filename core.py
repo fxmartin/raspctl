@@ -1,14 +1,17 @@
-from bottle import route, run, template, request, static_file, redirect
+from bottle import route, run, template, request, static_file, redirect, post
 import bottle
 import json
 import sqlite3
 import subprocess
+import config
 
 
 conn = sqlite3.connect('raspctl.db')
+config.load_config(conn)
 
 # Create DDBB schema:
 # create table execute (id INTEGER PRIMARY KEY AUTOINCREMENT, class TEXT, action TEXT, value TEXT, extra TEXT, command TEXT);
+# create table config (id INTEGER PRIMARY KEY AUTOINCREMENT, json TEXT);
 
 
 # STATIC ROUTES
@@ -108,7 +111,7 @@ def command_edit(id_=None):
     return template('edit', data=data)
 
 
-@route('/command/save', method='POST')
+@post('/command/save')
 def command_save():
     id_ = request.POST.get('id')
     class_ = request.POST.get('class')
@@ -140,6 +143,22 @@ def command_delete(id_=None):
     conn.commit()
     return "ok"
 
+@route('/config')
+def config_edit():
+    return template('config', config=config)
+
+@post('/save_configuration')
+def config_save():
+    def bool_eval(name):
+        return request.POST.get(name) == "True"
+
+    conf = {
+        "SHOW_DETAILED_INFO": bool_eval('SHOW_DETAILED_INFO'),
+        "SHOW_TODO": bool_eval('SHOW_TODO'),
+    }
+
+    config.save_configuration(conn, conf)
+    return redirect("/")
 
 @route('/')
 def index():
