@@ -101,6 +101,7 @@ def command_delete(id_=None):
 
 @route('/config')
 def config_edit():
+    helpers.current_tab("config")
     return template('config', config=config)
 
 @post('/save_configuration')
@@ -119,6 +120,7 @@ def config_save():
 
 @route('/webcam')
 def webcam():
+    helpers.current_tab("webcam")
     fswebcam_is_installed = helpers.check_program_is_installed("fswebcam")
     return template('webcam', fswebcam_is_installed=fswebcam_is_installed)
 
@@ -133,6 +135,7 @@ def take_picture():
 
 @route('/')
 def index():
+    helpers.current_tab("commands")
     c = conn.cursor()
     query = "SELECT id, class, action, command FROM execute order by class, action asc"
     rows = helpers.multi_dummy(c.execute(query))

@@ -1,4 +1,5 @@
 import subprocess
+import config
 
 
 # SOME HELPER OBJECTS
@@ -47,3 +48,7 @@ def compose_command(command, value, extra):
 
 def check_program_is_installed(prg_name):
     return subprocess.call("which %s" % prg_name, shell=True) == 0
+
+
+def current_tab(tab_name):
+    setattr(config, "CURRENT_TAB", tab_name)
