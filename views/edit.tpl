@@ -11,7 +11,7 @@
 <br />
 
 
-<form class="bs-docs-example form-horizontal" action="/command/save" method="POST" >
+<form class="form-horizontal" action="/command/save" method="post" >
 
 	<input type="hidden" name="id" value="{{data.id}}" />
 
@@ -42,8 +42,8 @@
 		</div>
 	</div>
 
-		<div class="form-actions">
-			<button type="submit" class="btn btn-primary">Save changes</button>
-		</div>
+	<div class="form-actions">
+		<button type="submit" class="btn btn-primary">Save changes</button>
+	</div>
 </form>
 <hr />
