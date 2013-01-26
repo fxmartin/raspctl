@@ -13,7 +13,7 @@
 
 
 % if config.SHOW_TODO:
-	<p><b class="text-error">Todo:</b> We must be able to adjust the photo resolution from the configuration (because some webcams do not suport this format, thought), the input device (now is on /dev/video0 by default).</p>
+	<p><span class="label label-important">TODO:</span> We must be able to adjust the photo resolution from the configuration (because some webcams do not suport this format, thought), the input device (now is on /dev/video0 by default).</p>
 % end
 
 <h3 class="text-info"> Webcam </h3>

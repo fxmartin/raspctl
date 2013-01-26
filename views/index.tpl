@@ -20,7 +20,7 @@
 		<dt>Action </dt>
 		<dd> Just a descriptive name of the action this command will perform. Only letters, numbers and the '_' character can be used (because it must be URL friendly in order to be used in the HTTP API)</dd>
 		<dt>Command</dt>
-		<dd>The command itself. This command will be executed in the shell. The command can receive parameters too (not true, is in my TODO list)</dd>
+		<dd>The command itself. This command will be executed in the shell. The command can receive parameters too (not true, is in my <span class="label label-important">TODO</span> list)</dd>
 	</dl>
 
 	<p> The URL API is very easy to use. You just have to do a request to: </p>
