@@ -2,9 +2,11 @@
 
 % import config
 
-
-
 <p> <i>Commands</i> section is used when you want to define some commands that will be executed on the Raspberry Pi. The commands can be executed either from the web interface or using a HTTP API. </p>
+
+% if config.COMMAND_EXECUTION == False:
+	<p class="text-warning">The command execution is DISABLED. You can activate it  thru the <a href="/config">configuration</a>.</p>
+% end
 
 % if config.SHOW_DETAILED_INFO:
 
@@ -23,12 +25,7 @@
 
 	<p> Where CLASS and ACTION are required fields and will be used for searching the command, if any match is found, the command will be executed passing the given parameters </p>
 
-
 % end
-% if config.SHOW_TODO:
-	<p> <b class="text-error">TODO</b>: Support a way of enabling/disabling the commands section thru a configuration file or something like that. </p>
-% end
-
 
 <br />
 <a class="btn" href="/command/edit/new" title="New element"> <i class="icon-plus-sign"></i> New command </a>
