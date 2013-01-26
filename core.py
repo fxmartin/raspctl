@@ -120,7 +120,6 @@ def config_save():
 @route('/webcam')
 def webcam():
     fswebcam_is_installed = helpers.check_program_is_installed("fswebcam")
-    print fswebcam_is_installed
     return template('webcam', fswebcam_is_installed=fswebcam_is_installed)
 
 @get('/take_picture')
@@ -129,7 +128,6 @@ def take_picture():
         return "Is seems you don't have fswebcam installed in your system. Install it using apt-get or aptitude and add your user to VIDEO group."
 
     command = "fswebcam -r 640x480 -S 3 ./static/img/webcam_last.jpg"
-    print subprocess.call(command, shell=True)
     return "done"
 
 
