@@ -9,12 +9,6 @@ conn = sqlite3.connect('raspctl.db')
 
 # Create DDBB schema:
 # create table execute (id INTEGER PRIMARY KEY AUTOINCREMENT, class TEXT, action TEXT, value TEXT, extra TEXT, command TEXT);
-# insert into execute (class, action, value, command) values ("audio", "up", "10", "aumix -v+2");
-# insert into execute (class, action, value, command) values ("audio", "down", "10", "aumix -v-2");
-# insert into execute (class, action, value, command) values ("audio", "mute", null, "aumix -v1");
-# insert into execute (class, action, value, command) values ("audio", "toggle", null, "mocp --toggle-pause");
-# insert into execute (class, action, value, command) values ("audio", "play", null, "--play");
-# insert into execute (class, action, value, command) values ("audio", "pause", null, "--pause");
 
 
 # STATIC ROUTES
