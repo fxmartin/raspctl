@@ -9,11 +9,6 @@ import subprocess
 conn = sqlite3.connect('raspctl.db')
 config.load_config(conn)
 
-# Create DDBB schema:
-# create table execute (id INTEGER PRIMARY KEY AUTOINCREMENT, class TEXT, action TEXT, value TEXT, extra TEXT, command TEXT);
-# create table config (id INTEGER PRIMARY KEY AUTOINCREMENT, json TEXT);
-
-
 # STATIC ROUTES
 @route('/static/<filepath:path>')
 def server_static(filepath):
@@ -140,6 +135,11 @@ def commands():
     query = "SELECT id, class, action, command FROM execute order by class, action asc"
     rows = helpers.multi_dummy(c.execute(query))
     return template('commands', rows=rows)
+
+@get('/about')
+def about():
+    helpers.current_tab("about")
+    return template('about')
 
 @get('/system_info')
 def system_info():

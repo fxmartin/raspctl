@@ -26,7 +26,7 @@
               <li class="{{ 'active' if config.CURRENT_TAB == "commands" else '' }}"><a href="/commands">Commands</a></li>
               <li class="{{ 'active' if config.CURRENT_TAB == "webcam" else '' }}"><a href="/webcam">Webcam</a></li>
               <li class="{{ 'active' if config.CURRENT_TAB == "config" else '' }}"><a href="/config">Configuration</a></li>
-              <li class="{{ 'active' if config.CURRENT_TAB == "about" else '' }}"><a href="#about">About</a></li>
+              <li class="{{ 'active' if config.CURRENT_TAB == "about" else '' }}"><a href="/about">About</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
