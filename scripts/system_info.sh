@@ -53,7 +53,6 @@ echo `df -h | grep "rootfs.*/$" --color=none  | awk '{print $2}'`
 echo -n "DISK_USED:"
 echo `df -h | grep "rootfs.*/$" --color=none  | awk '{print $3}'`
 
-
 echo -n "DISK_FREE:"
 echo `df -h | grep "rootfs.*/$" --color=none  | awk '{print $4}'`
 
@@ -67,7 +66,7 @@ echo -n "PROCESSOR_NAME:"
 echo `cat /proc/cpuinfo  | grep "model name" | sort -u | egrep ":.*$" -ho | tr -d ":"`
 
 echo -n "PROCESSOR_BOGOMITS:"
-echo `cat /proc/cpuinfo  | grep "bogomips" | head -1 | egrep ":.*$" -ho | tr -d ":"`
+echo `cat /proc/cpuinfo  | grep -i "bogomips" | head -1 | egrep ":.*$" -ho | tr -d ":"`
 
 echo -n "PROCESSOR_CURRENT_SPEED:"
 echo `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq`
