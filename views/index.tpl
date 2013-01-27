@@ -15,7 +15,7 @@ $(document).ready(function() {
 	}
 	load();
 	// Every 2 seconds refresh de information of the dashboard
-	setInterval(load, 2000);
+	setInterval(load, 30000);
 });
 
 </script>
