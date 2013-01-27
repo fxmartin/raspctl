@@ -141,10 +141,13 @@ def commands():
     rows = helpers.multi_dummy(c.execute(query))
     return template('commands', rows=rows)
 
+@get('/system_info')
+def system_info():
+    system_info = helpers.execute_system_information_script()
+    return template("system_info", info=system_info)
+
 @get('/')
 def index():
-    return "This is the index"
-    #return template("index")
-
+    return template("index")
 
 run(host='0.0.0.0', port=8086, reloader=True)

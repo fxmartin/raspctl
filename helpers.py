@@ -1,5 +1,6 @@
-import subprocess
 import config
+import os
+import subprocess
 
 
 # SOME HELPER OBJECTS
@@ -52,3 +53,31 @@ def check_program_is_installed(prg_name):
 
 def current_tab(tab_name):
     setattr(config, "CURRENT_TAB", tab_name)
+
+
+def _execute(cmd):
+    try:
+        output = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE).communicate()
+        return output[0]
+    except OSError:
+        return ""
+
+
+# Yep, I like extremely long and descriptive names for
+# functions and variables (if you didn't noticed yed) =)
+def execute_system_information_script():
+    # Ok, let's explain this a little bit. The script system_info.sh gets information
+    # about the system and throw the results to the STDOUT with a key-value format.
+    # From here we execute the mentioned script and load it in Python Dictionary
+    # dinamically, so, the names you use in the script for identifying a information
+    # will be the same in the Python code. Please take a look to the comments of the
+    # mentioned file for further information.
+    result = _execute(os.getcwd() + "/scripts/system_info.sh")
+    info = {}
+    for line in result.split('\n'):
+        try:
+            constant, value = line.split(':', 1)
+            info[constant] = value
+        except ValueError:
+            pass
+    return info

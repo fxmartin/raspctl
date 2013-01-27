@@ -7,6 +7,8 @@ default_config = {
     "COMMAND_EXECUTION": False,
 }
 
+CURRENT_TAB = ""
+
 def load_config(conn):
     c = conn.cursor()
     query = "SELECT id, json from config order by id"
