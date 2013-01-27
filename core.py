@@ -148,6 +148,7 @@ def system_info():
 
 @get('/')
 def index():
+    helpers.current_tab("index")
     return template("index")
 
 run(host='0.0.0.0', port=8086, reloader=True)
