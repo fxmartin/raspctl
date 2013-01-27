@@ -2,3 +2,44 @@ License
 =======
 Copyright (c) Jan Carreras Prat 2013.
 License: GPL3. See the COPYING file or take a look to http://www.gnu.org/licenses
+
+Install
+=======
+
+PACKAGES
+Required system packages:
+	$ sudo aptitude install python-bottle sqlite3 mercurial
+
+Required if you want to use the webcam:
+	$ sudo aptitude install fswebcam
+
+USER
+This application MUST run as non-privileged user. It is possible to run it
+as root but is strongly discouraged. You can create other user different
+than "pi" if you want.
+
+GROUPS
+Make sure that you user is in the video and audio groups:
+	$ sudo adduser $USER video
+	$ sudo adduser $USER audio
+
+If you user as been added to one of this two groups, reboot the Rasberry Pi.
+
+CLONE THE PROJECT FROM REPOSITORY
+	hg clone https://inedit00@bitbucket.org/inedit00/raspctl
+
+DDBB
+Creating de DDBB (must be created in the root of the project)
+	$ cd raspctl
+	$ sqlite3 raspctl.db < ./scripts/schema.sql
+
+STARTING THE APP
+Must be started from the root directory of the application
+	$ cd raspctl
+	$ python core.py
+
+You can now browse to http://your-rasppi-ip:8086/
+
+DETACH APP FROM CONSOLE
+If you want to execute the web application like if it were a daemon you can do:
+	$ sudo nohup python core.py &
