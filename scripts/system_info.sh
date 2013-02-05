@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 
 # This script is meant for recolecting all the information of the system that
 # will be displayed in the RaspCTL dashboard. The decision of creating a bash
