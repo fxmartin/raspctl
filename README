@@ -42,4 +42,4 @@ You can now browse to http://your-rasppi-ip:8086/
 
 DETACH APP FROM CONSOLE
 If you want to execute the web application like if it were a daemon you can do:
-	$ sudo nohup python core.py &
+	$ nohup python core.py &
