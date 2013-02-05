@@ -5,18 +5,24 @@ import helpers
 import json
 import sqlite3
 import subprocess
+import sys
 
-conn = sqlite3.connect('raspctl.db')
+# sys.path[0] is set by the python interpreter to the directory where the
+# executed script, like this very file, resides.  Furthermore, the current
+# working directory can point to anywhere and sys.path[0] will still be set
+# correctly.
+ROOT = sys.path[0]
+conn = sqlite3.connect(ROOT + "/raspctl.db")
 config.load_config(conn)
 
 # STATIC ROUTES
 @route('/static/<filepath:path>')
 def server_static(filepath):
-    return static_file(filepath, root='/home/inedit/projects/raspctl/static')
+    return static_file(filepath, root=ROOT+"/static")  # Maybe os.path.join()?
 
 @route('/favicon.ico')
 def get_favicon():
-    return static_file('favicon.ico', root="./static/img")
+    return static_file('favicon.ico', root=ROOT+"/static/img")
 
 
 ## HTTP HANDLERS
