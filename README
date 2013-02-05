@@ -26,7 +26,7 @@ Make sure that you user is in the video and audio groups:
 If you user as been added to one of this two groups, reboot the Rasberry Pi.
 
 CLONE THE PROJECT FROM REPOSITORY
-	hg clone https://inedit00@bitbucket.org/inedit00/raspctl
+	hg clone https://bitbucket.org/inedit00/raspctl
 
 DDBB
 Creating de DDBB (must be created in the root of the project)
