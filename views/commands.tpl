@@ -75,10 +75,7 @@
 
 		$('a.launch').bind('click', function(event){
 			event.preventDefault();
-			$.get(this.href, {}, function(response) {
-				console.log(response);
-			})
-		})
+			$.get(this.href, {}, function(response) { }) })
 
 		$('a.remove').bind('click', function(event) {
 			event.preventDefault();
