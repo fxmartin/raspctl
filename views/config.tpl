@@ -46,6 +46,21 @@
 		</div>
 	</div>
 
+
+	<h4>Services</h4>
+	<div class="control-group">
+		<label class="control-label" for="SERVICE_EXECUTION">Services start/stop/reload/...</label>
+		<div class="controls">
+			<select name="SERVICE_EXECUTION">
+				<option value="True" {{"selected" if config.SERVICE_EXECUTION else ""}}>Enabled</option>
+				<option value="False" {{"selected" if not config.SERVICE_EXECUTION else ""}}>Disabled</option>
+			
+			</select>
+			<abbr title="Enables to start/stop/restart/reload/status all the daemon in /etc/init.d/*.">Help</abbr>
+			<abbr class="text-error" title="Read the PRIVILEGED COMMANDS section in README file!">Important</abbr>
+		</div>
+	</div>
+
 	<div class="form-actions">
 		<button type="submit" class="btn btn-primary">Save changes</button>
 	</div>

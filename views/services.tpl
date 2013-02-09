@@ -5,7 +5,11 @@
 <p> <i>Service</i> is used for checking the status of the services in /etc/init.d/* and doing the most standart admin actions. </p>
 
 % if config.SHOW_DETAILED_INFO:
+	Read the PRIVILEGED COMMANDS section from README and the comments of the file scripts/exec.sh for further information.
+% end
 
+% if not config.SERVICE_EXECUTION:
+	<h5 class="text-error offset2">The service execution is <b>DISABLED</b>. You can enable it in <a href="/config">config</a>.</h5>
 % end
 
 <br /> <br />
@@ -23,8 +27,6 @@
 		</label>
 	</div>
 </div>
-
-
 
 
 <br /> <br />
@@ -58,6 +60,11 @@
 	% end
 	</tbody>
 </table>
+
+% if not services:
+	<i class="offset4">nothing to show here...</i>
+	
+% end
 
 <script type="text/javascript">
 	$(document).ready(function() {

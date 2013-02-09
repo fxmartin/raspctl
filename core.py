@@ -111,9 +111,10 @@ def config_save():
         return request.POST.get(name) == "True"
 
     conf = {
-        "SHOW_DETAILED_INFO": bool_eval('SHOW_DETAILED_INFO'),
-        "SHOW_TODO": bool_eval('SHOW_TODO'),
-        "COMMAND_EXECUTION": bool_eval('COMMAND_EXECUTION'),
+        'SHOW_DETAILED_INFO': bool_eval('SHOW_DETAILED_INFO'),
+        'SHOW_TODO': bool_eval('SHOW_TODO'),
+        'COMMAND_EXECUTION': bool_eval('COMMAND_EXECUTION'),
+        'SERVICE_EXECUTION': bool_eval('SERVICE_EXECUTION'),
     }
 
     config.save_configuration(conn, conf)
@@ -145,11 +146,14 @@ def commands():
 def services():
     filter_favorites = request.params.get('filter_favorites') == "true"
     helpers.current_tab("services")
-    services = helpers._execute("ls /etc/init.d/")
-    services = filter(bool, services.split('\n'))
-    favorite_services = config.SERVICES_FAVORITES
-    if filter_favorites:
-        services = favorite_services
+    if config.SERVICE_EXECUTION:
+        services = helpers._execute("ls /etc/init.d/")
+        services = filter(bool, services.split('\n'))
+        favorite_services = config.SERVICES_FAVORITES
+        if filter_favorites:
+            services = favorite_services
+    else:
+        services, favorite_services = [], []
     return template('services', services=services, favorite_services=favorite_services,
                                 filter_favorites=filter_favorites)
 
