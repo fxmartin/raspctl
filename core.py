@@ -133,7 +133,6 @@ def take_picture():
     command = "fswebcam -r 640x480 -S 3 ./static/img/webcam_last.jpg"
     return "done"
 
-
 @route('/commands')
 def commands():
     helpers.current_tab("commands")
@@ -141,6 +140,46 @@ def commands():
     query = "SELECT id, class, action, command FROM execute order by class, action asc"
     rows = helpers.multi_dummy(c.execute(query))
     return template('commands', rows=rows)
+
+@get('/services')
+def services():
+    filter_favorites = request.params.get('filter_favorites') == "true"
+    helpers.current_tab("services")
+    services = helpers._execute("ls /etc/init.d/")
+    services = filter(bool, services.split('\n'))
+    favorite_services = config.SERVICES_FAVORITES
+    if filter_favorites:
+        services = favorite_services
+    return template('services', services=services, favorite_services=favorite_services,
+                                filter_favorites=filter_favorites)
+
+def _service_favorite(name):
+    # Just mark a service (daemon) as favorite
+    c = conn.cursor()
+
+    if name in config.SERVICES_FAVORITES:
+        config.SERVICES_FAVORITES.remove(name)
+    else:
+        config.SERVICES_FAVORITES.append(name)
+    new_config = {"SERVICES_FAVORITES": config.SERVICES_FAVORITES}
+
+    config.save_configuration(conn, new_config)
+    return "Toggled favorite"
+
+@get('/service/:name/:action')
+def service_action(name=None, action=None):
+
+    if action == "favorite":
+        return _service_favorite(name)
+
+    if action not in config.SERVICE_VALID_ACTIONS:
+        return "Error! Invalid action!"
+
+    if name not in helpers._execute("ls /etc/init.d/"):
+        return "Error! Service not found!"
+
+    result = helpers._execute("sudo /opt/raspctl/exec.sh service %s %s" % (name, action))
+    return result if result else "No information returned"
 
 @get('/about')
 def about():

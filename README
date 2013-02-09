@@ -33,6 +33,15 @@ Creating de DDBB (must be created in the root of the project)
 	$ cd raspctl
 	$ sqlite3 raspctl.db < ./scripts/schema.sql
 
+PRIVILEGED COMMANDS
+If you want to use the "services" section (start/restart/... services in /etc/init.d/*)
+you must execute the command below. For more information read the commands in the file
+itself (strongy recomend it):
+
+sudo ./scripts/exec.sh deploy [user]
+
+Being "user" the name of the user that will execute RaspCTL. The default is "pi".
+
 STARTING THE APP
 Must be started from the root directory of the application
 	$ cd raspctl

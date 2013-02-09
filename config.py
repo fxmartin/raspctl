@@ -5,7 +5,10 @@ default_config = {
     "SHOW_DETAILED_INFO": True,
     "SHOW_TODO":  True,
     "COMMAND_EXECUTION": False,
+    "SERVICES_FAVORITES": [],
 }
+
+SERVICE_VALID_ACTIONS = ("reload", "start", "stop", "restart", "status")
 
 CURRENT_TAB = ""
 
