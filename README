@@ -36,7 +36,7 @@ Creating de DDBB (must be created in the root of the project)
 PRIVILEGED COMMANDS
 If you want to use the "services" section (start/restart/... services in /etc/init.d/*)
 you must execute the command below. For more information read the commands in the file
-itself (strongy recomend it):
+itself (I strongy recommend it):
 
 sudo ./scripts/exec.sh deploy [user]
 
