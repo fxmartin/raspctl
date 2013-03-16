@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 
 # tl;dr Execute "sudo ./exec.sh deploy". Go fap.
 
