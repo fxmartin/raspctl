@@ -134,6 +134,7 @@ def take_picture():
         return "Is seems you don't have fswebcam installed in your system. Install it using apt-get or aptitude and add your user to VIDEO group."
 
     command = "fswebcam -r 640x480 -S 3 %s/static/img/webcam_last.jpg" % ROOT
+    subprocess.call(command, shell=True)
     return "done"
 
 @route('/commands')
