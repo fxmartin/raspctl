@@ -14,13 +14,13 @@
 	<h3 class="text-info"> Processor </h3>
 	<dl>
 		<dt>CPU Name</dt>
-		<dd>{{info['PROCESSOR_NAME']}}</dd>
+		<dd>{{info['PROCESSOR_NAME'].strip() or info['PROCESSOR_NAME2']}}</dd>
 		<dt>Bogomits</dt>
 		<dd>{{info['PROCESSOR_BOGOMITS']}}</dd>
 		<dt>Current speed (Hz)</dt>
 		<dd>{{info['PROCESSOR_CURRENT_SPEED']}}</dd>
 		<dt>Overcloked speed (MHz)</dt>
-		<dd>{{info['PROCESSOR_OVERLOCK']}}</dd>
+		<dd>{{info['PROCESSOR_OVERLOCK'].strip() or '--'}}</dd>
 		<dt>Load Average</dt>
 		<dd>{{info['LOAD_AVG']}}</dd>
 	</dl>

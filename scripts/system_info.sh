@@ -60,7 +60,10 @@ echo -n "LOAD_AVG:"
 echo $(cat /proc/loadavg | awk '{print $1, $2, $3}')
 
 echo -n "PROCESSOR_NAME:"
-echo $(cat /proc/cpuinfo  | grep "model name" | sort -u | egrep ":.*$" -ho | tr -d ":")
+echo $(cat /proc/cpuinfo | awk -F":" '/model name/{print $2}' | head -1)
+
+echo -n "PROCESSOR_NAME2:"
+echo $(cat /proc/cpuinfo | awk -F ":" '/Processor/{print $2}')
 
 echo -n "PROCESSOR_BOGOMITS:"
 echo $(cat /proc/cpuinfo  | grep -i "bogomips" | head -1 | egrep ":.*$" -ho | tr -d ":")
