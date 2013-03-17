@@ -1,8 +1,6 @@
 <div class="span4">
 	<h3 class="text-info"> Basic </h3>
 	<dl class="dl-horizontal">
-		<dt>User</dt>
-		<dd>{{info['USER']}}</dd>
 		<dt>Hostname</dt>
 		<dd>{{info['HOSTNAME']}}</dd>
 		<dt>IP address</dt>

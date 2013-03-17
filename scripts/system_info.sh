@@ -26,9 +26,6 @@
 export GREP_OPTIONS='--color=none'
 
 
-echo -n "USER:"
-echo $USER
-
 echo -n "HOSTNAME:"
 hostname
 
