@@ -57,7 +57,7 @@ echo -n "UPTIME:"
 echo $(uptime  | awk '{print $3}' | tr -d ',')
 
 echo -n "LOAD_AVG:"
-echo $(uptime  | awk '{print $8, $9, $10}' | tr -d ",")
+echo $(cat /proc/loadavg | awk '{print $1, $2, $3}')
 
 echo -n "PROCESSOR_NAME:"
 echo $(cat /proc/cpuinfo  | grep "model name" | sort -u | egrep ":.*$" -ho | tr -d ":")
