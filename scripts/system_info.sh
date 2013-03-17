@@ -73,3 +73,9 @@ echo $(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq)
 
 echo -n "PROCESSOR_OVERLOCK:"
 echo $(cat /boot/config.txt | grep arm_freq --color=none | egrep  [0-9]+ -ho)
+
+echo -n "TOP_PROCESSES:"
+echo $(ps xua | awk '{print $4, $2, $11}' | sort -nr | head -6 | tr "\n" "#")
+
+echo -n "TOP_MEMORY:"
+echo $(ps xua | awk '{print $3, $2, $11}' | sort -nr | head -6 | tr "\n" "#")

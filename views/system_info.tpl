@@ -24,6 +24,33 @@
 		<dt>Load Average</dt>
 		<dd>{{info['LOAD_AVG']}}</dd>
 	</dl>
+
+	<hr />
+
+	<h3 class="text-info">Top CPU processes</h3>
+	<dl class="dl-horizontal">
+		% for process in info['TOP_PROCESSES'].split('#'):
+			% if process:
+				% usage, pid, name = process.split(' ', 2)
+				<dt title="{{name}}">{{name}}</dt>
+				<dd>PID: {{pid}} - {{usage}}%</dd>
+			% end
+		% end
+	</dl>
+
+	<hr />
+
+	<h3 class="text-info">Top MEMORY processes</h3>
+	<dl class="dl-horizontal">
+		% for process in info['TOP_MEMORY'].split('#'):
+			% if process:
+				% usage, pid, name = process.split(' ', 2)
+				<dt title="{{name}}">{{name}}</dt>
+				<dd>PID: {{pid}} - {{usage}}%</dd>
+			% end
+		% end
+	</dl>
+
 </div>
 
 <div class="span5">
@@ -44,7 +71,6 @@
 	</dl>
 
 	<hr />
-
 
 	<h3 class="text-info">Disk usage</h3>
 	% clean = lambda str: float(filter(lambda x: x.isdigit(), str))
