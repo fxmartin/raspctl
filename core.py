@@ -202,4 +202,6 @@ def index():
     helpers.current_tab("index")
     return template("index")
 
-run(host='0.0.0.0', port=8086, reloader=True)
+if __name__ == '__main__':
+    reloader = '--debug' in sys.argv
+    run(host='0.0.0.0', port=8086, reloader=reloader)
