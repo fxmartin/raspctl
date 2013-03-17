@@ -185,7 +185,7 @@ def service_action(name=None, action=None):
     if name not in helpers._execute("ls /etc/init.d/"):
         return "Error! Service not found!"
 
-    result = helpers._execute("sudo /usr/share/raspctl/scripts/exec.sh service %s %s" % (name, action))
+    result = helpers._execute("sudo %s/scripts/exec.sh service %s %s" % (ROOT, name, action))
     return result if result else "No information returned"
 
 @get('/about')
