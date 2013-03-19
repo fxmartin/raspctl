@@ -81,3 +81,6 @@ def execute_system_information_script():
         except ValueError:
             pass
     return info
+
+def is_tab_active(tabname):
+    return 'active' if config.CURRENT_TAB == tabname else ''
