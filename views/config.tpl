@@ -65,5 +65,9 @@
 		<button type="submit" class="btn btn-primary">Save changes</button>
 	</div>
 
+% if config_saved:
+	<div class="alert alert-success">Configuration has been saved!</div>
+% end
+
 	<hr />
 </form>

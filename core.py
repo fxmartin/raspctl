@@ -103,9 +103,9 @@ def command_delete(id_=None):
     return "ok"
 
 @route('/config')
-def config_edit():
+def config_edit(config_saved=False):
     helpers.current_tab("config")
-    return template('config', config=config)
+    return template('config', config=config, config_saved=config_saved)
 
 @post('/save_configuration')
 def config_save():
@@ -120,7 +120,7 @@ def config_save():
     }
 
     config.save_configuration(conn, conf)
-    return redirect("/")
+    return config_edit(config_saved=True)
 
 @route('/webcam')
 def webcam():
