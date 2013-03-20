@@ -58,6 +58,14 @@ def execute():
 
     return _execute(_class, action)
 
+@route('/commands')
+def commands():
+    helpers.current_tab("commands")
+    c = conn.cursor()
+    query = "SELECT id, class, action, command FROM execute order by class, action asc"
+    rows = helpers.multi_dummy(c.execute(query))
+    return template('commands', rows=rows)
+
 @route('/command/edit/:id_')
 def command_edit(id_=None):
     id_ = "" if id_ == "new" else id_
@@ -136,14 +144,6 @@ def take_picture():
     command = "fswebcam -r 640x480 -S 3 %s/static/img/webcam_last.jpg" % ROOT
     subprocess.call(command, shell=True)
     return "done"
-
-@route('/commands')
-def commands():
-    helpers.current_tab("commands")
-    c = conn.cursor()
-    query = "SELECT id, class, action, command FROM execute order by class, action asc"
-    rows = helpers.multi_dummy(c.execute(query))
-    return template('commands', rows=rows)
 
 @get('/services')
 def services():
