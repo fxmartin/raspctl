@@ -1,34 +1,22 @@
 import config
 import os
+import storage
 import subprocess
 
 
-# SOME HELPER OBJECTS
 class Dummy(object):
-    def __init__(self, cursor, data=None, text=""):
-        self.return_text = text
+    def __init__(self, data, text=""):
+        self.data = data
+        self.text = text
 
-        self.headers = map(lambda x: x[0], cursor.description)
-
-        if "class" in self.headers:
-            self.headers[self.headers.index("class")] = "class_"
-
-        self.data = cursor.fetchone() if not data else data
-        result = dict(zip(self.headers, self.data)) if self.data else {}
-
-        for k, v in result.items():
+        for k, v in data.items():
             setattr(self, k, v)
 
-    def __getattr__(self,k):
-        return self.return_text
+    def __getitem__(self, k):
+        return self.data[k]
 
-
-def multi_dummy(cursor):
-    result = []
-    for row in cursor:
-        result.append(Dummy(cursor, row))
-    return result
-
+    def __getattr__(self, k):
+        return self.text
 
 def compose_command(command, value, extra):
     try:
@@ -46,6 +34,25 @@ def compose_command(command, value, extra):
         command = command.replace(v_param, request.params.get(param.lower(), default_value))
 
     return command
+
+def execute_command(class_, action):
+    if config.COMMAND_EXECUTION == False:
+        return "The command execution is NOT available."
+
+    # XXX TODO FIXME: Add support for passing parameters to the commands
+    #command = helpers.compose_command(result[COMMAND], value, result[EXTRA])
+
+    command = filter(lambda x: x['class_'] == class_ and
+                               x['action'] == action,
+                     storage.read('commands'))
+    if not command:
+        return "Command not found"
+
+    command = command[0]
+
+    subprocess.call(command, shell=True)
+    return "Executing: %s" % command
+
 
 def check_program_is_installed(prg_name):
     return subprocess.call("which %s" % prg_name, shell=True) == 0

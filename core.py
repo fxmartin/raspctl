@@ -1,53 +1,22 @@
 #!/usr/bin/env python
 
 from bottle import route, run, template, request, static_file, redirect, post, get
-import bottle
 import config
 import helpers
-import json
-import sqlite3
-import subprocess
-import sys
+import storage
 
-# sys.path[0] is set by the python interpreter to the directory where the
-# executed script, like this very file, resides.  Furthermore, the current
-# working directory can point to anywhere and sys.path[0] will still be set
-# correctly.
-ROOT = sys.path[0]
-conn = sqlite3.connect(ROOT + "/raspctl.db")
-config.load_config(conn)
+config.load_config()
 
 # STATIC ROUTES
 @route('/static/<filepath:path>')
 def server_static(filepath):
-    return static_file(filepath, root=ROOT+"/static")  # Maybe os.path.join()?
+    return static_file(filepath, root=config.ROOT+"/static")  # Maybe os.path.join()?
 
 @route('/favicon.ico')
 def get_favicon():
-    return static_file('favicon.ico', root=ROOT+"/static/img")
-
+    return static_file('favicon.ico', root=config.ROOT+"/static/img")
 
 ## HTTP HANDLERS
-def _execute(_class, action):
-    if config.COMMAND_EXECUTION == False:
-        return "The command execution is NOT available."
-
-    c = conn.cursor()
-    DEFAULT_VALUE, COMMAND, EXTRA = 0, 1, 2
-    query = 'SELECT value, command, extra FROM execute WHERE class=? and action=?'
-    c.execute(query, (_class, action))
-    result = c.fetchone()
-    if not result:
-        return "Command not found"
-
-    default_value = result[DEFAULT_VALUE]
-    value = request.params.get('value', default_value)
-
-    command = helpers.compose_command(result[COMMAND], value, result[EXTRA])
-
-    subprocess.call(command, shell=True)
-    return "Executing: %s" % command
-
 @route('/execute')
 def execute():
     try:
@@ -56,27 +25,21 @@ def execute():
     except:
         return "Invalid request. 'class' and 'action' parameters must be present."
 
-    return _execute(_class, action)
+    return helpers.execute_command(_class, action)
 
 @route('/commands')
 def commands():
     helpers.current_tab("commands")
-    c = conn.cursor()
-    query = "SELECT id, class, action, command FROM execute order by class, action asc"
-    rows = helpers.multi_dummy(c.execute(query))
+    rows = map(helpers.Dummy, storage.read('commands'))
     return template('commands', rows=rows)
 
 @route('/command/edit/:id_')
 def command_edit(id_=None):
-    id_ = "" if id_ == "new" else id_
-    c = conn.cursor()
-    query = "SELECT id, class, action, command, extra from execute where id = ?"
-    data = c.execute(query, (id_,))
+    id_ = "" if id_ == "new" else int(id_)
 
-    data = helpers.Dummy(data)
+    data = helpers.Dummy(storage.get_by_id('commands', id_))
 
     return template('edit', data=data)
-
 
 @post('/command/save')
 def command_save():
@@ -88,26 +51,25 @@ def command_save():
     if not class_ or not action:
         return "Invalid data. CLASS and ACTION are required fields."
 
-    c = conn.cursor()
-
     if id_:
-        query = "UPDATE execute set class = ?, action = ?, command = ? where id = ?"
-        a = c.execute(query, (class_, action, command, id_))
+        new_command = {"id_": int(id_), "class_": class_, "action": action, "command": command}
+        commands = storage.replace('commands', new_command)
+        print commands
+        storage.save_table('commands', commands)
     else:
-        query = "INSERT INTO execute (class, action, command) VALUES (?, ?, ?)"
-        result = c.execute(query, (class_, action, command))
-        id_ = result.lastrowid
+        data = storage.read()
+        ids = map(lambda x: x['id_'], data['commands'])
+        id_ = max(ids)+1 if ids else 1
 
+        new_command = {"id_": int(id_), "class_": class_, "action": action, "command": command}
+        data['commands'].append(new_command)
+        storage.save(data)
 
-    conn.commit()
     redirect("/command/edit/%s" % id_)
 
 @route('/command/delete/:id_')
 def command_delete(id_=None):
-    c = conn.cursor()
-    query = "DELETE FROM execute where id = ?"
-    c.execute(query, (id_,))
-    conn.commit()
+    storage.delete('commands', int(id_))
     return "ok"
 
 @route('/config')
@@ -127,7 +89,7 @@ def config_save():
         'SERVICE_EXECUTION': bool_eval('SERVICE_EXECUTION'),
     }
 
-    config.save_configuration(conn, conf)
+    config.save_configuration(conf)
     return config_edit(config_saved=True)
 
 @route('/webcam')
@@ -141,7 +103,7 @@ def take_picture():
     if not helpers.check_program_is_installed("fswebcam"):
         return "Is seems you don't have fswebcam installed in your system. Install it using apt-get or aptitude and add your user to VIDEO group."
 
-    command = "fswebcam -r 640x480 -S 3 %s/static/img/webcam_last.jpg" % ROOT
+    command = "fswebcam -r 640x480 -S 3 %s/static/img/webcam_last.jpg" % config.ROOT
     subprocess.call(command, shell=True)
     return "done"
 
@@ -162,15 +124,13 @@ def services():
 
 def _service_favorite(name):
     # Just mark a service (daemon) as favorite
-    c = conn.cursor()
-
     if name in config.SERVICES_FAVORITES:
         config.SERVICES_FAVORITES.remove(name)
     else:
         config.SERVICES_FAVORITES.append(name)
     new_config = {"SERVICES_FAVORITES": config.SERVICES_FAVORITES}
 
-    config.save_configuration(conn, new_config)
+    config.save_configuration(new_config)
     return "Toggled favorite"
 
 @get('/service/:name/:action')
@@ -185,7 +145,7 @@ def service_action(name=None, action=None):
     if name not in helpers._execute("ls /etc/init.d/"):
         return "Error! Service not found!"
 
-    result = helpers._execute("sudo %s/scripts/exec.sh service %s %s" % (ROOT, name, action))
+    result = helpers._execute("sudo %s/scripts/exec.sh service %s %s" % (config.ROOT, name, action))
     return result if result else "No information returned"
 
 @get('/about')
@@ -204,5 +164,6 @@ def index():
     return template("index")
 
 if __name__ == '__main__':
+    import sys
     reloader = '--debug' in sys.argv
     run(host='0.0.0.0', port=8086, reloader=reloader)

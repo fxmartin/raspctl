@@ -54,8 +54,8 @@
 			<td> {{row.command}} </td>
 			<td>
 				<a class="btn launch" href="/execute?class={{row.class_}}&action={{row.action}}" title="Launch"><i class="icon-play"></i></a>
-				<a class="btn" href="/command/edit/{{row.id}}" title="Edit"><i class="icon-wrench"></i></a>
-				<a class="btn remove" href="/command/delete/{{row.id}}" title="Remove"><i class="icon-remove"></i></a>
+				<a class="btn" href="/command/edit/{{row.id_}}" title="Edit"><i class="icon-wrench"></i></a>
+				<a class="btn remove" href="/command/delete/{{row.id_}}" title="Remove"><i class="icon-remove"></i></a>
 			</td>
 		</tr>
 	% end

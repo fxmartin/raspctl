@@ -2,3 +2,4 @@ raspctl\.db$
 .*swp$
 .*pyc$
 webcam_last.jpg$
+data.dat$

@@ -1,10 +1,17 @@
 import json
 import sys
+import storage
+
+# sys.path[0] is set by the python interpreter to the directory where the
+# executed script, like this very file, resides.  Furthermore, the current
+# working directory can point to anywhere and sys.path[0] will still be set
+# correctly.
+ROOT = sys.path[0]
 
 default_config = {
-    "SHOW_DETAILED_INFO": True,
-    "SHOW_TODO":  True,
-    "COMMAND_EXECUTION": False,
+    "SHOW_DETAILED_INFO": False,
+    "SHOW_TODO":  False,
+    "COMMAND_EXECUTION": True,
     "SERVICE_EXECUTION": True,
     "SERVICES_FAVORITES": [],
 }
@@ -13,36 +20,16 @@ SERVICE_VALID_ACTIONS = ("reload", "start", "stop", "restart", "status")
 
 CURRENT_TAB = ""
 
-def load_config(conn):
-    c = conn.cursor()
-    query = "SELECT id, json from config order by id"
-    c.execute(query)
-    result = c.fetchone()
-    try:
-        configuration = json.loads(result[1])
-    except (ValueError, TypeError) as e:
-        configuration = {}
+def load_config():
+    configuration = storage.read('config')
 
     for k, v in default_config.items():
+        # http://oi45.tinypic.com/nnqrl1.jpg
         setattr(sys.modules[__name__], k, configuration.get(k, v))
 
-def save_configuration(conn, conf):
-    c = conn.cursor()
-    query = "SELECT id, json from config order by id"
-    c.execute(query)
-    result = c.fetchone()
-    if not result:
-        query = "INSERT INTO config (json) VALUES (?)"
-        c.execute(query, (json.dumps(conf),))
-    else:
-        try:
-            configuration = json.loads(result[1])
-        except ValueError as e:
-            configuration = {}
-        configuration.update(conf)
-        query = "UPDATE config set json = ? where id = ?"
-        c.execute(query, (json.dumps(configuration), result[0]))
-        conn.commit()
-
+def save_configuration(conf):
+    configuration = storage.read()
+    configuration['config'].update(conf)
+    storage.save(configuration)
     # After saving the new configuration, we must load it again
-    load_config(conn)
+    load_config()

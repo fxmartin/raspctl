@@ -13,7 +13,7 @@
 
 <form class="form-horizontal" action="/command/save" method="post" >
 
-	<input type="hidden" name="id" value="{{data.id}}" />
+	<input type="hidden" name="id" value="{{data.id_}}" />
 
 	<div class="control-group">
 		<label class="control-label" for="class">Class</label>

@@ -8,7 +8,7 @@ Install
 
 PACKAGES
 Required system packages:
-	$ sudo aptitude install python-bottle sqlite3 mercurial
+	$ sudo aptitude install python-bottle mercurial
 
 Required if you want to use the webcam:
 	$ sudo aptitude install fswebcam
@@ -27,11 +27,6 @@ If you user as been added to one of this two groups, reboot the Rasberry Pi.
 
 CLONE THE PROJECT FROM REPOSITORY
 	hg clone https://bitbucket.org/inedit00/raspctl
-
-DDBB
-Creating de DDBB (must be created in the root of the project)
-	$ cd raspctl
-	$ sqlite3 raspctl.db < ./scripts/schema.sql
 
 PRIVILEGED COMMANDS
 If you want to use the "services" section (start/restart/... services in /etc/init.d/*)
