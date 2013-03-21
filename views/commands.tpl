@@ -61,6 +61,9 @@
 	% end
 	</tbody>
 </table>
+	% if not rows:
+		<div style="text-align: center" class="alert alert-info">Add a command by clicking in New Command button</div>
+	% end
 
 <script type="text/javascript">
 	$(document).ready(function() {
