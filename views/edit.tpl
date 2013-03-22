@@ -1,7 +1,7 @@
 %rebase base
 
 
-% if data.id == "": # New
+% if data.id_ == "": # New
 	<h3 class="text-info"> New command </h3>
 % else: # edit
 	<h3 class="text-info"> Editing {{data.class_}}/{{data.action}}</h3>
