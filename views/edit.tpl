@@ -48,6 +48,6 @@
 </form>
 <hr />
 
-	% if data.id:
+	% if data.id_:
 			<a class="offset1" href="/execute?class={{data.class_}}&action={{data.action}}">http://raspberryip/execute?class={{data.class_}}&action={{data.action}}</a>
 	% end

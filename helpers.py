@@ -50,7 +50,7 @@ def execute_command(class_, action):
 
     command = command[0]
 
-    subprocess.call(command, shell=True)
+    subprocess.call(command['command'], shell=True)
     return "Executing: %s" % command
 
 
