@@ -2,7 +2,7 @@
 
 % import config
 
-<p> <i>Commands</i> section is used when you want to define some commands that will be executed on the Raspberry Pi. The commands can be executed either from the web interface or using a HTTP API. </p>
+<p> <i>Commands</i> section is used when you want to define some commands that will be executed on the Raspberry Pi. The commands can be executed either from the web interface or using a HTTP API. The commands are executed non-interactively! You don't even see the output of the commands! </p>
 
 % if config.COMMAND_EXECUTION == False:
 	<p class="text-warning">The command execution is DISABLED. You can activate it  thru the <a href="/config">configuration</a>.</p>
