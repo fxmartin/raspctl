@@ -2,9 +2,7 @@ TODO
 ====
 * Add authentication to the application (mainly for being able to touch the
   configuration maintenance)
-* Check if the command exec.sh is propery installed by executing the test option,
-  if not, report it when the user enters to the service section
-* Create a beautiful README.md file, with screen shots and all this marketing bullshit
+* Create a beautiful README.md file, with screen shots and all the usual marketing bullshit
 
 
 REQUEST
