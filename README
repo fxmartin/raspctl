@@ -3,10 +3,20 @@ License
 Copyright (c) Jan Carreras Prat 2013.
 License: GPL3. See the COPYING file or take a look to http://www.gnu.org/licenses
 
+Webpage
+=======
+Official webpage:
+http://raspctl.com
+
 Install
 =======
 
-PACKAGES
+PACKAGE
+RaspCTL is packaged in a .deb and available in a public repo. Follow the
+instructions given in the Official Webpage (raspctl.com). Or you can
+simply try to install it by yourself manually (hard way):
+
+DEPENDENCIES
 Required system packages:
 	$ sudo aptitude install python-bottle mercurial
 
