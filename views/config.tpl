@@ -5,6 +5,17 @@
 
 <form action="/save_configuration" class="form-horizontal" method="post">
 
+	<h4>RaspCTL</h4>
+
+	<div class="control-group">
+		<label class="control-label" for="PORT">Port</label>
+		<div class="controls">
+			<input type="text" name="PORT" value="{{config.PORT}}" />
+			<abbr title="Set the port were the application is listening at. ">Help</abbr>
+			<span class="text-error">It must be non-privileged port (aka greater than 1024)</span>
+		</div>
+	</div>
+
 	<h4>Help/Debug Information</h4>
 
 	<div class="control-group">
@@ -13,7 +24,6 @@
 			<select name="SHOW_DETAILED_INFO">
 				<option value="True" {{"selected" if config.SHOW_DETAILED_INFO else ""}}>Enabled</option>
 				<option value="False" {{"selected" if not config.SHOW_DETAILED_INFO else ""}}>Disabled</option>
-			
 			</select>
 			<abbr title="Shows/hidde information of how to use the web application">Help</abbr>
 		</div>
@@ -41,7 +51,6 @@
 				<option value="False" {{"selected" if not config.COMMAND_EXECUTION else ""}}>Disabled</option>
 			
 			</select>
-			<span class="text-error">Use it with care!</span>
 			<abbr title="Enables/Disables the execution of commands from the Web Interface or the HTTP API. Any command can be configured/executed. Be sure that only authorised personal can edit/execute commands.">Help</abbr>
 		</div>
 	</div>

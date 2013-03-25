@@ -14,6 +14,7 @@ default_config = {
     "COMMAND_EXECUTION": True,
     "SERVICE_EXECUTION": True,
     "SERVICES_FAVORITES": [],
+    "PORT": 8086,
 }
 
 SERVICE_VALID_ACTIONS = ("reload", "start", "stop", "restart", "status")

@@ -82,12 +82,19 @@ def config_edit(config_saved=False):
 def config_save():
     def bool_eval(name):
         return request.POST.get(name) == "True"
+    def int_default(name, default):
+        try:
+            n = int(request.POST.get(name))
+            return n if n > 1024 else default
+        except:
+            return default
 
     conf = {
         'SHOW_DETAILED_INFO': bool_eval('SHOW_DETAILED_INFO'),
         'SHOW_TODO': bool_eval('SHOW_TODO'),
         'COMMAND_EXECUTION': bool_eval('COMMAND_EXECUTION'),
         'SERVICE_EXECUTION': bool_eval('SERVICE_EXECUTION'),
+        'PORT': int_default('PORT', 8086),
     }
 
     config.save_configuration(conf)
@@ -167,4 +174,4 @@ def index():
 if __name__ == '__main__':
     import sys
     reloader = '--debug' in sys.argv
-    run(host='0.0.0.0', port=8086, reloader=reloader)
+    run(host='0.0.0.0', port=config.PORT, reloader=reloader)
