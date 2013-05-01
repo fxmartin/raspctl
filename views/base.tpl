@@ -5,9 +5,13 @@
 	<title> RaspCTL</title>
 	<link href="/static/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <style>
-      body {
-        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-      }
+    	body {
+    		padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      	}
+
+		input[type="text"] {
+			height: 26px;
+		}
     </style>
 </head>
 <body>
@@ -25,6 +29,7 @@
             <ul class="nav">
               <li class="{{ helpers.is_tab_active('commands')  }}"><a href="/commands">Commands</a></li>
               <li class="{{ helpers.is_tab_active('services') }}"><a href="/services">Services</a></li>
+              <li class="{{ helpers.is_tab_active('radio') }}"><a href="/radio">Radio</a></li>
               <li class="{{ helpers.is_tab_active('webcam') }}"><a href="/webcam">Webcam</a></li>
               <li class="{{ helpers.is_tab_active('config') }}"><a href="/config">Configuration</a></li>
               <li class="{{ helpers.is_tab_active('about') }}"><a href="/about">About</a></li>

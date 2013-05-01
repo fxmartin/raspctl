@@ -4,6 +4,7 @@ import copy
 DEFAULT_DATA = {
     "config": {},
     "commands": [],
+    "radio": {"Proton Radio": "http://protonradio.com:8000"},
 }
 
 _data = None

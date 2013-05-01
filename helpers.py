@@ -69,9 +69,12 @@ def _execute(cmd):
     except OSError:
         return ""
 
+def _execute_background(cmd):
+    subprocess.call(cmd, shell=True)
+
 
 # Yep, I like extremely long and descriptive names for
-# functions and variables (if you didn't noticed yed) =)
+# functions and variables (if you haven't noticed it yet) =)
 def execute_system_information_script():
     # Ok, let's explain this a little bit. The script system_info.sh gets information
     # about the system and throw the results to the STDOUT with a key-value format.

@@ -55,7 +55,6 @@ def command_save():
     if id_:
         new_command = {"id_": int(id_), "class_": class_, "action": action, "command": command}
         commands = storage.replace('commands', new_command)
-        print commands
         storage.save_table('commands', commands)
     else:
         data = storage.read()
@@ -165,6 +164,37 @@ def about():
 def system_info():
     system_info = helpers.execute_system_information_script()
     return template("system_info", info=system_info)
+
+@get('/radio')
+def radio(successfully_saved=False):
+    radios = sorted(storage.read('radio').items())
+    helpers.current_tab("radio")
+    return template("radio", radios=radios, successfully_saved=successfully_saved)
+
+@get('/radio/play')
+def radio_play():
+    helpers._execute_background("killall -9 mplayer &")
+    helpers._execute_background("mplayer -really-quiet -noconsolecontrols - %s &" % request.GET.get('stream', ''))
+    return "ok"
+
+@get('/radio/stop')
+def radio_stop():
+    helpers._execute_background("killall -9 mplayer &")
+    return "ok"
+
+@post('/radio/save')
+def radio_save():
+    radios = {}
+    post = dict(request.POST)
+    for key in post:
+        name, value = key.split('_')
+        if name != "name": continue
+        radio_name = post.get('name_' + value)
+        radio_stream = post.get('stream_' + value)
+        if radio_name == "" or radio_stream == "": continue
+        radios[radio_name] = radio_stream
+    storage.save_table('radio', radios)
+    return radio(successfully_saved=True)
 
 @get('/')
 def index():
