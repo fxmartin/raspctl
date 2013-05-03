@@ -69,8 +69,22 @@ def _execute(cmd):
     except OSError:
         return ""
 
-def _execute_background(cmd):
-    subprocess.call(cmd, shell=True)
+class Player():
+    def is_installed(self):
+        return check_program_is_installed('mpd') and check_program_is_installed('mpc')
+
+    def play(self, song):
+        _execute("mpc clear")
+        _execute("mpc add " + song)
+        _execute("mpc play 1")
+
+    def stop(self):
+        _execute("mpc clear")
+
+    def volume(self, volume):
+        _execute("mpc volume " + volume)
+
+player = Player()
 
 
 # Yep, I like extremely long and descriptive names for

@@ -1,14 +1,43 @@
 %rebase base
 
+<!-- VOLUME -->
+<div class="pagination" style="float: right;">
+	<ul id="volume">
+		<li><a title="Volume" href="/radio/volume/0">0</a></li>
+		<li><a title="Volume" href="/radio/volume/10">10</a></li>
+		<li><a title="Volume" href="/radio/volume/20">20</a></li>
+		<li><a title="Volume" href="/radio/volume/30">30</a></li>
+		<li><a title="Volume" href="/radio/volume/40">40</a></li>
+		<li><a title="Volume" href="/radio/volume/50">50</a></li>
+		<li><a title="Volume" href="/radio/volume/60">60</a></li>
+		<li><a title="Volume" href="/radio/volume/70">70</a></li>
+		<li><a title="Volume" href="/radio/volume/80">80</a></li>
+		<li><a title="Volume" href="/radio/volume/90">90</a></li>
+		<li><a title="Volume" href="/radio/volume/100">100</a></li>
+	</ul>
+</div>
+<!-- END VOLUME -->
 
-<p><a id ="add_new_radio"href="#new_radio"> <i class="icon-plus"></i> Add new radio </a> </p>
+<!-- ADD NEW RADIO BTN -->
+<p>
+	<br />
+	<a id ="add_new_radio"href="#new_radio"> <i class="icon-plus"></i> Add new radio </a>
+</p>
+<!-- END ADD NEW RADIO BTN -->
 
-% if successfully_saved:
-	<div class="alert alert-success">The radios as been saved!</div>
-% end
 
 <br /> <br />
 
+
+<!-- SUCCESS MESSAGE -->
+% if successfully_saved:
+	<div class="alert alert-success">The radios have been saved!</div>
+% end
+<!-- END SUCCESS MESSAGE -->
+
+<br /> <br />
+
+<!-- TABLE THAT HAS A TEMPLATE ON IT -->
 <table class="hide">
 <tr id="tmpl" class="hide">
 	<td>
@@ -29,6 +58,8 @@
 	</td>
 </tr>
 </table>
+<!-- END OF TEMPLATE -->
+
 
 <form action="/radio/save" method="post">
 	<table class="table">
@@ -66,8 +97,12 @@
 	<div class="form-actions">
 		<button type="submit" class="btn btn-primary">Save changes</button>
 	</div>
-
 </form>
+
+<p>Note: If you want to <b>delete</b> a radio, just leave empty the Radio Name or the Strem.</p>
+
+<br />
+
 
 <script type="text/javascript">
 	add_events = function() {
@@ -95,5 +130,10 @@
 		$(tr).html(tmpl).appendTo($('#radios'));
 		remove_events();
 		add_events();
+	});
+
+	$('#volume a').click(function() { 
+		event.preventDefault();
+		$.get(event.currentTarget.href, function(){});
 	});
 </script>

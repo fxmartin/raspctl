@@ -167,20 +167,24 @@ def system_info():
 
 @get('/radio')
 def radio(successfully_saved=False):
+    if not helpers.player.is_installed():
+        return template("radio-instructions")
+
     radios = sorted(storage.read('radio').items())
     helpers.current_tab("radio")
     return template("radio", radios=radios, successfully_saved=successfully_saved)
 
 @get('/radio/play')
 def radio_play():
-    helpers._execute_background("killall -9 mplayer &")
-    helpers._execute_background("mplayer -really-quiet -noconsolecontrols - %s &" % request.GET.get('stream', ''))
-    return "ok"
+    helpers.player.play(request.GET.get('stream'))
 
 @get('/radio/stop')
 def radio_stop():
-    helpers._execute_background("killall -9 mplayer &")
-    return "ok"
+    helpers.player.stop()
+
+@get('/radio/volume/:volume')
+def radio_volume(volume=100):
+    helpers.player.volume(volume)
 
 @post('/radio/save')
 def radio_save():
