@@ -176,6 +176,10 @@ def radio(successfully_saved=False):
     helpers.current_tab("radio")
     return template("radio", radios=radios, successfully_saved=successfully_saved)
 
+@get('/radio/install')
+def radio_install():
+    return template("radio-instructions")
+
 @get('/radio/play')
 def radio_play():
     helpers.player.play(request.GET.get('stream'))

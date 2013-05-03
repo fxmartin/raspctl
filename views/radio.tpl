@@ -102,6 +102,7 @@
 </form>
 
 <p>Note: If you want to <b>delete</b> a radio, just leave empty the Radio Name or the Strem.</p>
+<p>See the <a href="/radio/install">instructions</a> on how to install/configure MPD/MPC.</p>
 
 <br />
 
