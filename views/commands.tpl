@@ -65,6 +65,10 @@
 		<div style="text-align: center" class="alert alert-info">Add a command by clicking in New Command button</div>
 	% end
 
+
+<p><b>Caution:</b> If you run a command that take a lot to execute, the RaspCTL will be 'blocked' until the command finishes. If you want to run a command that take too long to execute you may want to use "&" for executing it in background.</p>
+<p><b>Note:</b> The commands are being executed from the raspctl's Home Path. Do not assume that the commands are launched using the /home/pi Path. If you are trying to run a custom command or script, use the <b>full path</b> to your script (and be sure is world readable/executable).</p>
+
 <script type="text/javascript">
 	$(document).ready(function() {
 
