@@ -20,13 +20,15 @@ def get_favicon():
 ## HTTP HANDLERS
 @route('/execute')
 def execute():
+    params = dict(request.params)
     try:
-        _class = request.params['class']
-        action = request.params['action']
-    except:
+        _class = params.pop('class')
+        action = params.pop('action')
+    except KeyError:
         return "Invalid request. 'class' and 'action' parameters must be present."
 
-    return helpers.execute_command(_class, action)
+    extra_params = params
+    return helpers.execute_command(_class, action, extra_params)
 
 @route('/commands')
 def commands():

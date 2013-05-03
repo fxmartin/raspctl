@@ -18,29 +18,9 @@ class Dummy(object):
     def __getattr__(self, k):
         return self.text
 
-def compose_command(command, value, extra):
-    try:
-        extra = json.loads(extra)
-    except:
-        extra = {"extra_parameters":{}}
-
-    params = extra.get('extra_parameters', [])
-
-    for param, default_value in params.items():
-        v_param = "$" + param.upper()
-        if default_value == None:
-            default_value = ""
-
-        command = command.replace(v_param, request.params.get(param.lower(), default_value))
-
-    return command
-
-def execute_command(class_, action):
+def execute_command(class_, action, extra_params):
     if config.COMMAND_EXECUTION == False:
         return "The command execution is NOT available."
-
-    # XXX TODO FIXME: Add support for passing parameters to the commands
-    #command = helpers.compose_command(result[COMMAND], value, result[EXTRA])
 
     command = filter(lambda x: x['class_'] == class_ and
                                x['action'] == action,
@@ -49,6 +29,9 @@ def execute_command(class_, action):
         return "Command not found"
 
     command = command[0]
+
+    for key, value in extra_params.items():
+        command['command'] = command['command'].replace("$%s" % key, value)
 
     subprocess.call(command['command'], shell=True)
     return "Executing: %s" % command
