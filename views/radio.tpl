@@ -63,12 +63,14 @@
 
 <form action="/radio/save" method="post">
 	<table class="table">
-		<tr>
-			<th>Radio name</th>
-			<th>Stream</th>
-			<th>Play</th>
-			<th>Stop</th>
-		</tr>
+		<thead>
+			<tr>
+				<th>Radio name</th>
+				<th>Stream</th>
+				<th>Play</th>
+				<th>Stop</th>
+			</tr>
+		</thead>
 		<tbody id="radios">
 			% for i, (name, stream) in enumerate(radios, 0):
 			<tr>
