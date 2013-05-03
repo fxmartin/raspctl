@@ -94,6 +94,9 @@ we have made in the configuration file. We can do that just by executing this co
 sudo /etc/init.d/mpd restart
 </pre>
 
+<p>Of course, you can use the <a href="/services">Services</a> Tab, too, and click on the button Restart. It
+does exactly the same job.</p>
+
 <p><b>Now you have installed and configured both programs, you can click on the Radio tab in the Menu, and you
 should be able to add radios, and play them.</b></p>
 <br />
