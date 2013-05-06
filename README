@@ -7,14 +7,23 @@ Webpage
 =======
 Official webpage:
 http://raspctl.com
+Official repository:
+https://bitbucket.org/inedit00/raspctl
+
+About
+=====
+Developed by: Jan Carreras Prata <jcarreras@krenel.org>
+Stage of developement: Beta
+Contant: Feel free to contact me if you have a request, for reporting bugs, or just to say thanks.
 
 Install
 =======
 
 PACKAGE
-RaspCTL is packaged in a .deb and available in a public repo. Follow the
-instructions given in the Official Webpage (raspctl.com). Or you can
-simply try to install it by yourself manually (hard way):
+RaspCTL has a debian packaged in a public repo. Follow the instructions given in the official webpage (http://raspctl.com). 
+This is the BEST and easyest way of installing RaspCTL.
+
+Or you can simply try to install it by yourself manually (hard way):
 
 DEPENDENCIES
 Required system packages:
@@ -57,3 +66,7 @@ You can now browse to http://your-rasppi-ip:8086/
 DETACH APP FROM CONSOLE
 If you want to execute the web application like if it were a daemon you can do:
 	$ nohup python core.py &
+
+DEVELOPERS
+If somebody is interested in modify the code just have to run the DEPENDENCIES and STARTING THE APP
+steps. If you have problems, drop me an email.
