@@ -164,8 +164,18 @@ def about():
 
 @get('/system_info')
 def system_info():
+    def celsius_to_fahrenheit(cel):
+        if not cel: return ""
+        return cel * 9 / 5 + 32
+
     system_info = helpers.execute_system_information_script()
-    return template("system_info", info=system_info)
+
+    temp = {}
+    if system_info['TEMPERATURE']:
+        temp['c'] = float(system_info['TEMPERATURE'])
+        temp['f'] = celsius_to_fahrenheit(temp['c'])
+
+    return template("system_info", info=system_info, temp=temp)
 
 @get('/radio')
 def radio(successfully_saved=False):

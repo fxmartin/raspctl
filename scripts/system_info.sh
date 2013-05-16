@@ -79,3 +79,6 @@ echo $(ps xua | awk '{print $4, $2, $11}' | sort -nr | head -6 | tr "\n" "#")
 
 echo -n "TOP_MEMORY:"
 echo $(ps xua | awk '{print $3, $2, $11}' | sort -nr | head -6 | tr "\n" "#")
+
+echo -n "TEMPERATURE:"
+echo $(vcgencmd measure_temp | egrep "[0-9.]*" -o)
