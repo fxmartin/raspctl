@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 
+from alarm import alarms
 from bottle import route, run, template, request, static_file, redirect, post, get
 import config
+import datetime
 import helpers
 import storage
 import subprocess
+import time
 
 config.load_config()
 
@@ -215,6 +218,68 @@ def radio_save():
         radios[radio_name] = radio_stream
     storage.save_table('radio', radios)
     return radio(successfully_saved=True)
+
+@get('/alarm')
+def alarm():
+    helpers.current_tab('alarm')
+    return template("alarms")
+
+@get('/alarm/command')
+def alarm_command():
+    return template('alarms-command')
+
+@get('/alarm/radio')
+def alarm_radio():
+    alarms = map(helpers.Dummy, storage.read('alarms'))
+    return template('alarms-radio', alarms=alarms)
+
+@get('/alarm/edit/:id')
+def alarm_edit(id=None):
+    id = "" if id == "new" else int(id)
+    alarm = helpers.Dummy(storage.get_by_id('alarms', id))
+    radios = sorted(storage.read('radio').items())
+    return template('alarms-radio-edit', radios=radios, alarm=alarm)
+
+@post('/alarm/save')
+def alarm_save():
+    fields = ['id_', 'name', 'volume', 'stream', 'action']
+    data = dict([ (k, request.POST.get(k)) for k in fields  ])
+    data['volume'] = int(data['volume'])
+
+    try:
+        date = request.POST.get('date')
+        hour = request.POST.get('hour')
+        data['at'] = time.mktime(time.strptime("%s %s" % (date, hour),
+                                               "%Y-%m-%d %H:%M:%S"))
+        dt = datetime.datetime.fromtimestamp(data['at'])
+        data['date'] = dt.strftime('%Y-%m-%d')
+        data['hour'] = dt.strftime('%H:%M:%S')
+    except:
+        return "Problem with the date... Chek it, please"
+
+    if data['id_']:
+        data['id_'] = int(data['id_'])
+        alarms_data = storage.replace('alarms', data)
+        storage.save_table('alarms', alarms_data)
+    else:
+        # TODO: All this logic of getting a new ID for the given table should
+        # be handled by the storage lib
+        stored = storage.read()
+        ids = map(lambda x: x['id_'], stored['alarms'])
+        data['id_'] = max(ids)+1 if ids else 1
+
+        stored['alarms'].append(data)
+        storage.save(stored)
+
+    alarms.set_alarms(storage.read('alarms'))
+
+    redirect('/alarm/edit/%s' % data['id_'])
+
+@get('/alarm/delete/:id_')
+def alarm_delete(id_):
+    storage.delete('alarms', int(id_))
+    alarms.set_alarms(storage.read('alarms'))
+    return "ok"
 
 @get('/')
 def index():
