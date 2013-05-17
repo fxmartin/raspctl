@@ -18,6 +18,9 @@ class Dummy(object):
     def __getattr__(self, k):
         return self.text
 
+    def __str__(self):
+        return str(self.data)
+
 def execute_command(class_, action, extra_params):
     if config.COMMAND_EXECUTION == False:
         return "The command execution is NOT available."
