@@ -15,6 +15,8 @@
 	<dl>
 		<dt>CPU Name</dt>
 		<dd>{{info['PROCESSOR_NAME'].strip() or info['PROCESSOR_NAME2']}}</dd>
+		<dt>Temperature</dt>
+		<dd>{{"%.2f ºC / %.2f ºF" % (temp['c'], temp['f']) if temp else "unknown"}}</dd>
 		<dt>Bogomits</dt>
 		<dd>{{info['PROCESSOR_BOGOMITS']}}</dd>
 		<dt>Current speed (Hz)</dt>
