@@ -30,6 +30,7 @@
               <li class="{{ helpers.is_tab_active('commands')  }}"><a href="/commands">Commands</a></li>
               <li class="{{ helpers.is_tab_active('services') }}"><a href="/services">Services</a></li>
               <li class="{{ helpers.is_tab_active('radio') }}"><a href="/radio">Radio</a></li>
+              <li class="{{ helpers.is_tab_active('alarm') }}"><a href="/alarm">Alarm</a></li>
               <li class="{{ helpers.is_tab_active('webcam') }}"><a href="/webcam">Webcam</a></li>
               <li class="{{ helpers.is_tab_active('config') }}"><a href="/config">Configuration</a></li>
               <li class="{{ helpers.is_tab_active('about') }}"><a href="/about">About</a></li>
@@ -39,8 +40,6 @@
       </div>
     </div>
 
-
-	<!-- <script src="http://code.jquery.com/jquery-latest.js"></script> -->
 	<script src="/static/js/jquery-1.9.0.min.js"></script>
 	<script src="/static/js/bootstrap.min.js"></script>
 	<script src="/static/js/bootbox.min.js"></script>
