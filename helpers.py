@@ -61,14 +61,14 @@ class Player():
 
     def play(self, song):
         _execute("mpc clear")
-        _execute("mpc add " + song)
+        _execute("mpc add %s" % song)
         _execute("mpc play 1")
 
     def stop(self):
         _execute("mpc clear")
 
     def volume(self, volume):
-        _execute("mpc volume " + volume)
+        _execute("mpc volume %s" % volume)
 
 player = Player()
 
