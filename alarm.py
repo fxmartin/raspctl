@@ -1,5 +1,6 @@
 import signal
 import time
+from helpers import player
 
 # Well, I've tried to do it with threading.Timer and everything was working
 # nice and smoothly. I've had a problem, though, with signals. For some odd
@@ -82,7 +83,8 @@ class Alarms():
         current_alarms = _pop_current_alarms()
 
         for alarm in current_alarms:
-            print alarm
+            # Find the proper handler for this alarm and execute it
+            handler_dispatcher(alarm)
 
         self._set_alarms()
 
@@ -93,5 +95,39 @@ class Alarms():
     def _set_alarms(self):
         next_alarm_scnds = self.next_alarm()
         signal.alarm(next_alarm_scnds)
+
+
+class RadioHandler():
+
+    def __init__(self, alarm):
+        if alarm['action'] == "stop":
+            player.stop()
+
+        if alarm['action'] == "play":
+            player.play(alarm['stream'])
+            # We must wait 'til the song is playing :/
+            time.sleep(1)
+            player.volume(alarm['volume'])
+
+def handler_dispatcher(alarm):
+    handlers = {
+        "radio": RadioHandler,
+    }
+
+    if alarm['type'] not in handlers:
+        print "*" * 100
+        print "Error processing an alarm! Unknown handler!"
+        print alarm
+        print "*" * 100
+        return
+
+    handler = handlers[alarm['type']]
+    try:
+        handler(alarm)
+    except:
+        print "*" * 100
+        print "Error while processing an alarm!"
+        print alarm
+        print "*" * 100
 
 alarms = Alarms()

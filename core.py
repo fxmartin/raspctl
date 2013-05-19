@@ -245,6 +245,7 @@ def alarm_save():
     fields = ['id_', 'name', 'volume', 'stream', 'action']
     data = dict([ (k, request.POST.get(k)) for k in fields  ])
     data['volume'] = int(data['volume'])
+    data['type'] = 'radio'
 
     try:
         date = request.POST.get('date')
