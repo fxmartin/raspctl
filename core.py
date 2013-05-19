@@ -290,4 +290,7 @@ def index():
 if __name__ == '__main__':
     import sys
     reloader = '--debug' in sys.argv
+
+    alarms.set_alarms(storage.read('alarms'))
+
     run(host='0.0.0.0', port=config.PORT, reloader=reloader)
