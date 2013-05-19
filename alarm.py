@@ -62,12 +62,7 @@ class Alarms():
 
         now = time.time()
 
-        def _remove_old_alarms():
-            # If the task I want to execute is SECURITY_OFFSET seconds in the 
-            # past, I will execute it anyway. All the other in the past are deleted
-            self.alarms = filter(lambda al: al['at'] >= now - self.SECURITY_OFFSET, self.alarms)
-
-        def _pop_current_alarms():
+        def _get_pending_alarms():
             curr_al, al = [], []
             for alarm in self.alarms:
                 if alarm['at'] <= now:
@@ -78,11 +73,12 @@ class Alarms():
             self.alarms = al
             return curr_al
 
+        # If the task I want to execute is SECURITY_OFFSET seconds in the 
+        # past, I will execute it anyway. All the other in the past are deleted
+        self.alarms = filter(lambda al: al['at'] >= now - self.SECURITY_OFFSET, self.alarms)
 
-        _remove_old_alarms()
-        current_alarms = _pop_current_alarms()
-
-        for alarm in current_alarms:
+        # Get the alarms that must be executed now
+        for alarm in _get_pending_alarms():
             # Find the proper handler for this alarm and execute it
             handler_dispatcher(alarm)
 
