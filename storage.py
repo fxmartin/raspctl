@@ -2,8 +2,9 @@ import json
 import copy
 
 DEFAULT_DATA = {
-    "config": {},
+    "alarms": [],
     "commands": [],
+    "config": {},
     "radio": {"Proton Radio": "http://protonradio.com:8000"},
 }
 
