@@ -18,6 +18,9 @@ class Dummy(object):
     def __getattr__(self, k):
         return self.text
 
+    def __str__(self):
+        return str(self.data)
+
 def execute_command(class_, action, extra_params):
     if config.COMMAND_EXECUTION == False:
         return "The command execution is NOT available."
@@ -58,14 +61,14 @@ class Player():
 
     def play(self, song):
         _execute("mpc clear")
-        _execute("mpc add " + song)
+        _execute("mpc add %s" % song)
         _execute("mpc play 1")
 
     def stop(self):
         _execute("mpc clear")
 
     def volume(self, volume):
-        _execute("mpc volume " + volume)
+        _execute("mpc volume %s" % volume)
 
 player = Player()
 
