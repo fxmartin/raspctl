@@ -290,8 +290,9 @@ def index():
 
 if __name__ == '__main__':
     import sys
-    reloader = '--debug' in sys.argv
+    debug = '--debug' in sys.argv
 
     alarms.set_alarms(storage.read('alarms'))
 
-    bottle.run(host='0.0.0.0', port=config.PORT, reloader=reloader)
+    bottle.debug(debug)
+    bottle.run(host='0.0.0.0', port=config.PORT, reloader=debug)
