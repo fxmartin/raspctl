@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
 from alarm import alarms
-from bottle import route, run, template, request, static_file, redirect, post, get
+from bottle import template, request, static_file, redirect, post, get
+import bottle
 import config
 import datetime
 import helpers
@@ -12,16 +13,16 @@ import time
 config.load_config()
 
 # STATIC ROUTES
-@route('/static/<filepath:path>')
+@get('/static/<filepath:path>')
 def server_static(filepath):
     return static_file(filepath, root=config.ROOT+"/static")  # Maybe os.path.join()?
 
-@route('/favicon.ico')
+@get('/favicon.ico')
 def get_favicon():
     return static_file('favicon.ico', root=config.ROOT+"/static/img")
 
 ## HTTP HANDLERS
-@route('/execute')
+@get('/execute')
 def execute():
     params = dict(request.params)
     try:
@@ -33,13 +34,13 @@ def execute():
     extra_params = params
     return helpers.execute_command(_class, action, extra_params)
 
-@route('/commands')
+@get('/commands')
 def commands():
     helpers.current_tab("commands")
     rows = map(helpers.Dummy, storage.read('commands'))
     return template('commands', rows=rows)
 
-@route('/command/edit/:id_')
+@get('/command/edit/:id_')
 def command_edit(id_=None):
     id_ = "" if id_ == "new" else int(id_)
 
@@ -72,12 +73,12 @@ def command_save():
 
     redirect("/command/edit/%s" % id_)
 
-@route('/command/delete/:id_')
+@get('/command/delete/:id_')
 def command_delete(id_=None):
     storage.delete('commands', int(id_))
     return "ok"
 
-@route('/config')
+@get('/config')
 def config_edit(config_saved=False):
     helpers.current_tab("config")
     return template('config', config=config, config_saved=config_saved)
@@ -104,7 +105,7 @@ def config_save():
     config.save_configuration(conf)
     return config_edit(config_saved=True)
 
-@route('/webcam')
+@get('/webcam')
 def webcam():
     helpers.current_tab("webcam")
     fswebcam_is_installed = helpers.check_program_is_installed("fswebcam")
@@ -293,4 +294,4 @@ if __name__ == '__main__':
 
     alarms.set_alarms(storage.read('alarms'))
 
-    run(host='0.0.0.0', port=config.PORT, reloader=reloader)
+    bottle.run(host='0.0.0.0', port=config.PORT, reloader=reloader)
