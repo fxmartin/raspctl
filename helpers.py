@@ -1,6 +1,9 @@
+from pwd import getpwuid
 import config
+import getpass
 import os
 import re
+import stat
 import storage
 import subprocess
 import uuid
@@ -99,13 +102,31 @@ class session():
     @staticmethod
     def create():
         session_id = uuid.uuid4().hex
-        f = open(config.PATH_SESSION + session_id, 'w')
+
+        filepath = config.PATH_SESSION + session_id
+
+        fd = os.open(filepath, os.O_CREAT, int("0400", 8))
+        # XXX If I have a file descriptor without execute fdopen
+        # is there something I need to close? :/
+        f = os.fdopen(fd)
         f.close()
+
         return session_id
 
     @staticmethod
+    def _check_permissions(file_path):
+        st = os.stat(file_path)
+        filemode = stat.S_IMODE(st.st_mode)
+        just_user_readable_permissions = filemode == int("0400", 8)
+        same_username_that_executing_the_app = getpwuid(st.st_uid).pw_name == getpass.getuser()
+        return same_username_that_executing_the_app and just_user_readable_permissions
+
+    @staticmethod
     def is_logged(session_id):
-        return os.path.exists(config.PATH_SESSION + session_id)
+        if not session_id: return False
+
+        file_path = config.PATH_SESSION + session_id
+        return session._check_permissions(file_path)
 
     @staticmethod
     def logout(session_id):
