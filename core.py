@@ -291,7 +291,7 @@ def login():
 
 @get('/logout')
 def logup():
-    helpers.logout(bottle.request.get_cookie('session', ''))
+    helpers.session.logout(bottle.request.get_cookie('session', ''))
     bottle.response.delete_cookie('session')
     return login()
 
@@ -316,7 +316,7 @@ def authentication_plugin(callback):
         req = bottle.request
 
         # Check if the the sessions exists and is valid, then load the app
-        if helpers.is_logged(req.get_cookie('session','')):
+        if helpers.session.is_logged(req.get_cookie('session','')):
             return callback(*args, **kwargs)
 
         # Don't require auth for the static content
@@ -328,7 +328,7 @@ def authentication_plugin(callback):
             password = req.params.get('password')
             if check_login(username, password):
                 # Login successfull! Create the session and set the cookie
-                uuid = helpers.create_session()
+                uuid = helpers.session.create()
                 bottle.response.set_cookie('session', uuid)
                 # It would be nice to use a redirect here but since I'm
                 # setting a cookie it is not the best idea ever
