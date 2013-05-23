@@ -1,11 +1,13 @@
 import json
 import copy
+import hashlib
 
 DEFAULT_DATA = {
     "alarms": [],
     "commands": [],
     "config": {},
     "radio": {"Proton Radio": "http://protonradio.com:8000"},
+    "user": [{"id_": "admin", "password": hashlib.sha256("admin").hexdigest()}],
 }
 
 _data = None

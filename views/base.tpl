@@ -34,6 +34,7 @@
               <li class="{{ helpers.is_tab_active('webcam') }}"><a href="/webcam">Webcam</a></li>
               <li class="{{ helpers.is_tab_active('config') }}"><a href="/config">Configuration</a></li>
               <li class="{{ helpers.is_tab_active('about') }}"><a href="/about">About</a></li>
+              <li><a style="color: red;" href="/logout">Logout</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>

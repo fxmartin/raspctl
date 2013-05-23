@@ -5,10 +5,12 @@ from bottle import template, request, static_file, redirect, post, get
 import bottle
 import config
 import datetime
+import hashlib
 import helpers
 import storage
 import subprocess
 import time
+import uuid
 
 config.load_config()
 
@@ -283,10 +285,61 @@ def alarm_delete(id_):
     alarms.set_alarms(storage.read('alarms'))
     return "ok"
 
+@post('/login')
+def login():
+    return index()
+
+@get('/logout')
+def logup():
+    helpers.logout(bottle.request.get_cookie('session', ''))
+    bottle.response.delete_cookie('session')
+    return login()
+
 @get('/')
 def index():
     helpers.current_tab("index")
     return template("index")
+
+
+def authentication_plugin(callback):
+    # Ok, let's be clear at this point. I fucking hate all the authentication
+    # stuff. I'm sick of it. The problem is that I don't want to have more
+    # dependencies and thats with what I've end up. Can you improved without
+    # adding a new dependency? Please make me the favor and do it!
+
+    def check_login(user, password):
+        user = storage.get_by_id('user', user)
+        sha_password = hashlib.sha256(password).hexdigest()
+        return user and user['password'] == sha_password
+
+    def wrapper(*args, **kwargs):
+        req = bottle.request
+
+        # Check if the the sessions exists and is valid, then load the app
+        if helpers.is_logged(req.get_cookie('session','')):
+            return callback(*args, **kwargs)
+
+        # Don't require auth for the static content
+        if req.path.startswith('/static'):
+            return callback(*args, **kwargs)
+        # Check if the user is sending its credentials
+        elif req.params.get('username'):
+            username = req.params.get('username')
+            password = req.params.get('password')
+            if check_login(username, password):
+                # Login successfull! Create the session and set the cookie
+                uuid = helpers.create_session()
+                bottle.response.set_cookie('session', uuid)
+                # It would be nice to use a redirect here but since I'm
+                # setting a cookie it is not the best idea ever
+                return index()
+            else:
+                return template('login') # Bad login!
+
+        # You are not authenticated yet or don't have a valid session
+        return template('login')
+
+    return wrapper
 
 if __name__ == '__main__':
     import sys
@@ -295,4 +348,5 @@ if __name__ == '__main__':
     alarms.set_alarms(storage.read('alarms'))
 
     bottle.debug(debug)
+    bottle.install(authentication_plugin)
     bottle.run(host='0.0.0.0', port=config.PORT, reloader=debug)
