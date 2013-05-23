@@ -1,8 +1,9 @@
 import config
 import os
+import re
 import storage
 import subprocess
-
+import uuid
 
 class Dummy(object):
     def __init__(self, data, text=""):
@@ -94,3 +95,24 @@ def execute_system_information_script():
 
 def is_tab_active(tabname):
     return 'active' if config.CURRENT_TAB == tabname else ''
+
+def create_session():
+    session_id = uuid.uuid4().hex
+    f = open(config.PATH_SESSION + session_id, 'w')
+    f.close()
+    return session_id
+
+def is_logged(session_id):
+    return os.path.exists(config.PATH_SESSION + session_id)
+
+def logout(session_id):
+    # The session id must have 32 chars - uuid4.
+    # The session don't should have 'funny characters' because
+    # we are using os.remove and an unauthenticated person could
+    # potentially remove a file in the FS
+    if not re.match('^[0-9a-f]{32}$', session_id):
+        return
+    try:
+        os.remove(config.PATH_SESSION + session_id)
+    except:
+        pass

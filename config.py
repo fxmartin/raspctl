@@ -7,6 +7,7 @@ import storage
 # working directory can point to anywhere and sys.path[0] will still be set
 # correctly.
 ROOT = sys.path[0]
+PATH_SESSION = "/tmp/.raspctl_session_"
 
 default_config = {
     "SHOW_DETAILED_INFO": False,
