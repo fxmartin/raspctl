@@ -115,7 +115,10 @@ class session():
 
     @staticmethod
     def _check_permissions(file_path):
-        st = os.stat(file_path)
+        try:
+            st = os.stat(file_path)
+        except OSError:
+            return False
         filemode = stat.S_IMODE(st.st_mode)
         just_user_readable_permissions = filemode == int("0400", 8)
         same_username_that_executing_the_app = getpwuid(st.st_uid).pw_name == getpass.getuser()
