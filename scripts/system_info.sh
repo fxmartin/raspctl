@@ -45,13 +45,13 @@ echo -n "FREE_MEMORY:"
 echo $free
 
 echo -n "DISK_TOTAL:"
-echo $(df -h | grep "rootfs.*/$" --color=none  | awk '{print $2}')
+echo $(df -h | awk '{if ($6 ~ /^\/$/) print }' | head -1 | awk '{print $2}')
 
 echo -n "DISK_USED:"
-echo $(df -h | grep "rootfs.*/$" --color=none  | awk '{print $3}')
+echo $(df -h | awk '{if ($6 ~ /^\/$/) print }' | head -1 | awk '{print $3}')
 
 echo -n "DISK_FREE:"
-echo $(df -h | grep "rootfs.*/$" --color=none  | awk '{print $4}')
+echo $(df -h | awk '{if ($6 ~ /^\/$/) print }' | head -1 | awk '{print $4}')
 
 echo -n "UPTIME:"
 echo $(uptime  | awk '{print $3}' | tr -d ',')
