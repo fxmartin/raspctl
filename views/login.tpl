@@ -32,5 +32,18 @@
         </div>
       </form>
     </div>
+
+	<div class="container" style="text-align: center;">
+		<p>The default username/password is admin:admin. <br />
+		PLEASE, change the password in the configuration tab as soon as possible or 10 kittens <br /> on the
+		other side of the world will suffer diarrea and cough attack! At the same time!</p>
+	</div>
+
+	<br /> <br />
+	
+	<div class="container" style="text-align: center; color: grey;">
+		Copyright 2013 - Jan Carreras Prat &lt;jcarreras@krenel.org&gt; <br />
+		GPL3 project - Official webpage <a href="http://raspctl.com">Raspctl.com</a>
+	</div>
   </body>
 </html>
