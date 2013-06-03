@@ -81,9 +81,9 @@ def command_delete(id_=None):
     return "ok"
 
 @get('/config')
-def config_edit(config_saved=False):
+def config_edit(config_saved=False, err_msg=""):
     helpers.current_tab("config")
-    return template('config', config=config, config_saved=config_saved)
+    return template('config', config=config, config_saved=config_saved, err_msg=err_msg)
 
 @post('/save_configuration')
 def config_save():
@@ -106,6 +106,26 @@ def config_save():
 
     config.save_configuration(conf)
     return config_edit(config_saved=True)
+
+
+@post('/change_password')
+def change_password():
+    old = request.POST.get('old_password')
+    new = request.POST.get('new_password')
+    repeat = request.POST.get('repeat_password')
+
+    user = storage.get_by_id('user', 'admin')
+    sha_password = hashlib.sha256(old).hexdigest()
+    if sha_password != user['password']:
+        return config_edit(err_msg="Bad password")
+    elif new != repeat:
+        return config_edit(err_msg="Password missmatches")
+
+    user['password'] = hashlib.sha256(new).hexdigest()
+
+    storage.save_table('user', [user])
+
+    return config_edit(err_msg="Password changed successfully")
 
 @get('/webcam')
 def webcam():
