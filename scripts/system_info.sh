@@ -30,7 +30,7 @@ echo -n "HOSTNAME:"
 hostname
 
 echo -n "IP_ADDRESS:"
-/sbin/ifconfig  | egrep "addr:([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)" -ho | grep -v 127 | head -1 | cut -d":" -f2
+/sbin/ifconfig  | egrep "addr:([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)" -ho | egrep -v "(127|169)" | head -1 | cut -d":" -f2
 
 echo -n "MEMORY_TOTAL:"
 total=$(cat /proc/meminfo | grep MemTotal | egrep [0-9]+ -ho)
