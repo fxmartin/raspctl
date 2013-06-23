@@ -30,7 +30,7 @@ echo -n "HOSTNAME:"
 hostname
 
 echo -n "IP_ADDRESS:"
-/sbin/ifconfig  | egrep "addr:([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)" -ho | grep -v 127 | head -1 | cut -d":" -f2
+/sbin/ifconfig  | egrep "addr:([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)" -ho | egrep -v "(127|169)" | head -1 | cut -d":" -f2
 
 echo -n "MEMORY_TOTAL:"
 total=$(cat /proc/meminfo | grep MemTotal | egrep [0-9]+ -ho)
@@ -45,13 +45,13 @@ echo -n "FREE_MEMORY:"
 echo $free
 
 echo -n "DISK_TOTAL:"
-echo $(df -h | grep "rootfs.*/$" --color=none  | awk '{print $2}')
+echo $(df -h | awk '{if ($6 ~ /^\/$/) print }' | head -1 | awk '{print $2}')
 
 echo -n "DISK_USED:"
-echo $(df -h | grep "rootfs.*/$" --color=none  | awk '{print $3}')
+echo $(df -h | awk '{if ($6 ~ /^\/$/) print }' | head -1 | awk '{print $3}')
 
 echo -n "DISK_FREE:"
-echo $(df -h | grep "rootfs.*/$" --color=none  | awk '{print $4}')
+echo $(df -h | awk '{if ($6 ~ /^\/$/) print }' | head -1 | awk '{print $4}')
 
 echo -n "UPTIME:"
 echo $(uptime  | awk '{print $3}' | tr -d ',')
@@ -72,7 +72,7 @@ echo -n "PROCESSOR_CURRENT_SPEED:"
 echo $(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq)
 
 echo -n "PROCESSOR_OVERLOCK:"
-echo $(cat /boot/config.txt | grep arm_freq --color=none | egrep  [0-9]+ -ho)
+echo $(cat /boot/config.txt | grep arm_freq | egrep  [0-9]+ -ho)
 
 echo -n "TOP_PROCESSES:"
 echo $(ps axo pcpu,pid,comm | awk '{print $1, $2, $3}'  | sort -nr | head -n 6 | tr "\n" "#")
