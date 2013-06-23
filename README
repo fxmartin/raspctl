@@ -20,7 +20,7 @@ Install
 =======
 
 PACKAGE
-RaspCTL has a debian packaged in a public repo. Follow the instructions given in the official webpage (http://raspctl.com). 
+RaspCTL has a debian packaged in a public repo. Follow the instructions given in the official webpage (http://raspctl.com).
 This is the BEST and easyest way of installing RaspCTL.
 
 Or you can simply try to install it by yourself manually (hard way):
@@ -45,7 +45,8 @@ Make sure that you user is in the video and audio groups:
 If you user as been added to one of this two groups, reboot the Rasberry Pi.
 
 CLONE THE PROJECT FROM REPOSITORY
-	hg clone https://bitbucket.org/inedit00/raspctl
+	$ hg clone https://bitbucket.org/inedit00/raspctl
+	$ hg update stable
 
 PRIVILEGED COMMANDS
 If you want to use the "services" section (start/restart/... services in /etc/init.d/*)

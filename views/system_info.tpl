@@ -75,20 +75,27 @@
 	<hr />
 
 	<h3 class="text-info">Disk usage</h3>
-	% clean = lambda str: float(filter(lambda x: x.isdigit(), str))
-	% used = int(clean(info['DISK_USED']) / clean(info['DISK_TOTAL']) * 100)
-	% free = int(clean(info['DISK_FREE']) / clean(info['DISK_TOTAL']) * 100)
-	% color = "success" if used < 70 else "warning" if used < 85 else "danger"
-	<div class="progress progress-{{color}}">
-		<div class="bar" style="width: {{used}}%;"></div>
-	</div>
-	<dl class="dl-horizontal">
-		<dt>Total HDD space</dt>
-		<dd>{{info['DISK_TOTAL']}}</dd>
-		<dt>Used</dt>
-		<dd>{{info['DISK_USED']}} <b>({{used}}%)</b></dd>
-		<dt>Free</dt>
-		<dd>{{info['DISK_FREE']}} ({{free}}%)</dd>
-	</dl>
+	% if not info['DISK_TOTAL']:
+		<div>
+			<p><span>Error! We have been unable to retreive the disk usage information!</span></p>
+		</div>
+	% else:
+		% clean = lambda str: float(filter(lambda x: x.isdigit() or '.' in str or ',' in str,
+										   str.replace(',', '.')))
+		% used = int(clean(info['DISK_USED']) / clean(info['DISK_TOTAL']) * 100)
+		% free = int(clean(info['DISK_FREE']) / clean(info['DISK_TOTAL']) * 100)
+		% color = "success" if used < 70 else "warning" if used < 85 else "danger"
+		<div class="progress progress-{{color}}">
+			<div class="bar" style="width: {{used}}%;"></div>
+		</div>
+		<dl class="dl-horizontal">
+			<dt>Total HDD space</dt>
+			<dd>{{info['DISK_TOTAL']}}</dd>
+			<dt>Used</dt>
+			<dd>{{info['DISK_USED']}} <b>({{used}}%)</b></dd>
+			<dt>Free</dt>
+			<dd>{{info['DISK_FREE']}} ({{free}}%)</dd>
+		</dl>
+	% end
 
 </div>
