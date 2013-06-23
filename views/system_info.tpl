@@ -80,8 +80,7 @@
 			<p><span>Error! We have been unable to retreive the disk usage information!</span></p>
 		</div>
 	% else:
-		% clean = lambda str: float(filter(lambda x: x.isdigit() or '.' in str or ',' in str,
-										   str.replace(',', '.')))
+		% clean = lambda str: float(filter(lambda x: x.isdigit() or '.' in str or ',' in str, str.replace(',', '.')))
 		% used = int(clean(info['DISK_USED']) / clean(info['DISK_TOTAL']) * 100)
 		% free = int(clean(info['DISK_FREE']) / clean(info['DISK_TOTAL']) * 100)
 		% color = "success" if used < 70 else "warning" if used < 85 else "danger"
