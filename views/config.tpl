@@ -80,3 +80,39 @@
 
 	<hr />
 </form>
+
+<br /> <br /> <br />
+
+
+<h3 class="text-info">Authentication</h3>
+<hr />
+
+<form action="/change_password" class="form-horizontal" method="post">
+	<div>
+		<p style="color: red; text-align: center; font-size:24px;">{{err_msg}}</p>
+	</div>
+	
+	<h4>Admin user</h4>
+	<div class="control-group">
+		<label class="control-label" for="old_password">Old password</label>
+		<div class="controls">
+			<input type="password" name="old_password"></input>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="new_password">New password</label>
+		<div class="controls">
+			<input type="password" name="new_password"></input>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="repeat_password">Repeat it</label>
+		<div class="controls">
+			<input type="password" name="repeat_password"></input>
+		</div>
+	</div>
+
+	<div class="form-actions">
+		<button type="submit" class="btn btn-primary">Save changes</button>
+	</div>
+</form>

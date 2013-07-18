@@ -1,8 +1,12 @@
+from pwd import getpwuid
 import config
+import getpass
 import os
+import re
+import stat
 import storage
 import subprocess
-
+import uuid
 
 class Dummy(object):
     def __init__(self, data, text=""):
@@ -17,6 +21,38 @@ class Dummy(object):
 
     def __getattr__(self, k):
         return self.text
+
+    def __str__(self):
+        return str(self.data)
+
+def check_program_is_installed(prg_name):
+    return subprocess.call("which %s" % prg_name, shell=True) == 0
+
+
+def current_tab(tab_name):
+    setattr(config, "CURRENT_TAB", tab_name)
+
+def is_tab_active(tabname):
+    return 'active' if config.CURRENT_TAB == tabname else ''
+
+class player():
+    @staticmethod
+    def is_installed():
+        return check_program_is_installed('mpd') and check_program_is_installed('mpc')
+
+    @staticmethod
+    def play(song):
+        _execute("mpc clear")
+        _execute("mpc add %s" % song)
+        _execute("mpc play 1")
+
+    @staticmethod
+    def stop():
+        _execute("mpc clear")
+
+    @staticmethod
+    def volume(volume):
+        _execute("mpc volume %s" % volume)
 
 def execute_command(class_, action, extra_params):
     if config.COMMAND_EXECUTION == False:
@@ -36,39 +72,12 @@ def execute_command(class_, action, extra_params):
     subprocess.call(command['command'], shell=True)
     return "Executing: %s" % command
 
-
-def check_program_is_installed(prg_name):
-    return subprocess.call("which %s" % prg_name, shell=True) == 0
-
-
-def current_tab(tab_name):
-    setattr(config, "CURRENT_TAB", tab_name)
-
-
 def _execute(cmd):
     try:
         output = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE).communicate()
         return output[0]
     except OSError:
         return ""
-
-class Player():
-    def is_installed(self):
-        return check_program_is_installed('mpd') and check_program_is_installed('mpc')
-
-    def play(self, song):
-        _execute("mpc clear")
-        _execute("mpc add " + song)
-        _execute("mpc play 1")
-
-    def stop(self):
-        _execute("mpc clear")
-
-    def volume(self, volume):
-        _execute("mpc volume " + volume)
-
-player = Player()
-
 
 # Yep, I like extremely long and descriptive names for
 # functions and variables (if you haven't noticed it yet) =)
@@ -89,5 +98,48 @@ def execute_system_information_script():
             pass
     return info
 
-def is_tab_active(tabname):
-    return 'active' if config.CURRENT_TAB == tabname else ''
+class session():
+    @staticmethod
+    def create():
+        session_id = uuid.uuid4().hex
+
+        filepath = config.PATH_SESSION + session_id
+
+        fd = os.open(filepath, os.O_CREAT, int("0400", 8))
+        # XXX If I have a file descriptor without execute fdopen
+        # is there something I need to close? :/
+        f = os.fdopen(fd)
+        f.close()
+
+        return session_id
+
+    @staticmethod
+    def _check_permissions(file_path):
+        try:
+            st = os.stat(file_path)
+        except OSError:
+            return False
+        filemode = stat.S_IMODE(st.st_mode)
+        just_user_readable_permissions = filemode == int("0400", 8)
+        same_username_that_executing_the_app = getpwuid(st.st_uid).pw_name == getpass.getuser()
+        return same_username_that_executing_the_app and just_user_readable_permissions
+
+    @staticmethod
+    def is_logged(session_id):
+        if not session_id: return False
+
+        file_path = config.PATH_SESSION + session_id
+        return session._check_permissions(file_path)
+
+    @staticmethod
+    def logout(session_id):
+        # The session id must have 32 chars - uuid4.
+        # The session don't should have 'funny characters' because
+        # we are using os.remove and an unauthenticated person could
+        # potentially remove a file in the FS
+        if not re.match('^[0-9a-f]{32}$', session_id):
+            return
+        try:
+            os.remove(config.PATH_SESSION + session_id)
+        except:
+            pass
