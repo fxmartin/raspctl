@@ -310,10 +310,10 @@ def login():
     return index()
 
 @get('/logout')
-def logup():
+def logout():
     helpers.session.logout(bottle.request.get_cookie('session', ''))
     bottle.response.delete_cookie('session')
-    return login()
+    redirect("/")
 
 @get('/')
 def index():
