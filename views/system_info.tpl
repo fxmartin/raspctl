@@ -15,6 +15,8 @@
 	<dl>
 		<dt>CPU Name</dt>
 		<dd>{{info['PROCESSOR_NAME'].strip() or info['PROCESSOR_NAME2']}}</dd>
+		<dt>Temperature</dt>
+		<dd>{{"%.2f ºC / %.2f ºF" % (temp['c'], temp['f']) if temp else "unknown"}}</dd>
 		<dt>Bogomits</dt>
 		<dd>{{info['PROCESSOR_BOGOMITS']}}</dd>
 		<dt>Current speed (Hz)</dt>
@@ -78,8 +80,7 @@
 			<p><span>Error! We have been unable to retreive the disk usage information!</span></p>
 		</div>
 	% else:
-		% clean = lambda str: float(filter(lambda x: x.isdigit() or '.' in str or ',' in str,
-										   str.replace(',', '.')))
+		% clean = lambda str: float(filter(lambda x: x.isdigit() or '.' == x, str.replace(',', '.')))
 		% used = int(clean(info['DISK_USED']) / clean(info['DISK_TOTAL']) * 100)
 		% free = int(clean(info['DISK_FREE']) / clean(info['DISK_TOTAL']) * 100)
 		% color = "success" if used < 70 else "warning" if used < 85 else "danger"

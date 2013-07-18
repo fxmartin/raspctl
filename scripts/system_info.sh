@@ -75,7 +75,10 @@ echo -n "PROCESSOR_OVERLOCK:"
 echo $(cat /boot/config.txt | grep arm_freq | egrep  [0-9]+ -ho)
 
 echo -n "TOP_PROCESSES:"
-echo $(ps xua | awk '{print $4, $2, $11}' | sort -nr | head -6 | tr "\n" "#")
+echo $(ps axo pcpu,pid,comm | awk '{print $1, $2, $3}'  | sort -nr | head -n 6 | tr "\n" "#")
 
 echo -n "TOP_MEMORY:"
-echo $(ps xua | awk '{print $3, $2, $11}' | sort -nr | head -6 | tr "\n" "#")
+echo $(ps axo %mem,pid,comm | awk '{print $1, $2, $3}' | sort -nr | head -6 | tr "\n" "#") 
+
+echo -n "TEMPERATURE:"
+echo $(vcgencmd measure_temp | egrep "[0-9.]*" -o)
