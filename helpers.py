@@ -1,6 +1,4 @@
-from pwd import getpwuid
 import config
-import getpass
 import os
 import re
 import stat
@@ -121,7 +119,7 @@ class session():
             return False
         filemode = stat.S_IMODE(st.st_mode)
         just_user_readable_permissions = filemode == int("0400", 8)
-        same_username_that_executing_the_app = getpwuid(st.st_uid).pw_name == getpass.getuser()
+        same_username_that_executing_the_app = st.st_uid == os.getuid()
         return same_username_that_executing_the_app and just_user_readable_permissions
 
     @staticmethod
