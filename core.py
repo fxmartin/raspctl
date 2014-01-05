@@ -89,7 +89,7 @@ def config_edit(config_saved=False, err_msg=""):
 def config_save():
     def bool_eval(name):
         return request.POST.get(name) == "True"
-    def int_default(name, default):
+    def int_port_default(name, default):
         try:
             n = int(request.POST.get(name))
             return n if n > 1024 else default
@@ -101,7 +101,7 @@ def config_save():
         'SHOW_TODO': bool_eval('SHOW_TODO'),
         'COMMAND_EXECUTION': bool_eval('COMMAND_EXECUTION'),
         'SERVICE_EXECUTION': bool_eval('SERVICE_EXECUTION'),
-        'PORT': int_default('PORT', 8086),
+        'PORT': int_port_default('PORT', 8086),
     }
 
     config.save_configuration(conf)
