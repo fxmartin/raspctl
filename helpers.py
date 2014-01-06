@@ -1,6 +1,7 @@
 import config
 import os
 import re
+import socket, struct
 import stat
 import storage
 import subprocess
@@ -141,3 +142,35 @@ class session():
             os.remove(config.PATH_SESSION + session_id)
         except:
             pass
+
+
+def in_whitelist(ips, check_ip):
+    # I could use netaddr instead, but I don't want to add more
+    # dependecies.
+    # Receives a list of ips and a IP to be checked
+    # Example: ips -> ["192.168.1.10", "192.168.1.11", "10.5.0.0/8"]
+    #          check_ip -> "10.5.1.2"
+    # Returns  True
+    def ip_to_int(ip):
+        return struct.unpack('!L',socket.inet_aton(ip))[0]
+
+    def mask_to_int(cidr_mask):
+        # Creates a host-mask
+        n = 32 - cidr_mask
+        host_mask = (1L<<n)-1
+        # Inverts it and we get a network-mask
+        net_mask = (2**32)-1-host_mask
+        return net_mask
+
+    def parse_ip(ip):
+        ip, mask = ip.split('/') if '/' in ip else (ip, "32")
+        ip = ip_to_int(ip)
+        mask = mask_to_int(int(mask))
+        return ip, mask
+
+    def is_address_in_network(cidr_ip, check_ip):
+        ip, mask = parse_ip(cidr_ip)
+        network = ip & mask
+        return (mask & ip_to_int(check_ip)) == network
+
+    return any((is_address_in_network(ip, check_ip) for ip in ips ))
