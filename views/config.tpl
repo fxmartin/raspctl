@@ -70,6 +70,24 @@
 		</div>
 	</div>
 
+
+	<h4>IP Whitelist</h4>
+	<div class="control-group">
+		<p>The whitelist funcionality allows you to define a IP or a CIDR to connect to RaspCTL without
+		password. Useful when you want to use the commands section thru API calls. All the IP's and CIDRs
+		must be coma separed. Examples:</p>
+		<ul>
+			<li>Single IPs: 192.168.1.10,192.168.1.11</li>
+			<li>All your subnet using CIDR: 192.168.0.0/16,10.0.0.0/8</li>
+			<li>All the IP's using CIDR: 0.0.0.0/0 (Care! Dangerous. This deactivates the authentication)</li>
+		</ul>
+		<label class="control-label" for="AUTH_WHITELIST">IP Whitelist</label>
+		<div class="controls">
+			<input type="text" name="AUTH_WHITELIST" value="{{','.join(config.AUTH_WHITELIST)}}" />
+			<abbr title="IP or CIDR (comma separed) you want to whitelist">Help</abbr>
+		</div>
+	</div>
+
 	<div class="form-actions">
 		<button type="submit" class="btn btn-primary">Save changes</button>
 	</div>
@@ -116,3 +134,10 @@
 		<button type="submit" class="btn btn-primary">Save changes</button>
 	</div>
 </form>
+
+
+<form action="/save_configuration" class="form-horizontal" method="post">
+	<h4>IP Whitelist</h4>
+
+</form>
+
