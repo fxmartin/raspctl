@@ -16,6 +16,7 @@ default_config = {
     "SERVICE_EXECUTION": True,
     "SERVICES_FAVORITES": [],
     "PORT": 8086,
+    "AUTH_WHITELIST": [],
 }
 
 SERVICE_VALID_ACTIONS = ("reload", "start", "stop", "restart", "status")

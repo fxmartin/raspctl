@@ -2,11 +2,13 @@
 
 from alarm import alarms
 from bottle import template, request, static_file, redirect, post, get
+from string import strip
 import bottle
 import config
 import datetime
 import hashlib
 import helpers
+import re
 import storage
 import subprocess
 import time
@@ -87,21 +89,45 @@ def config_edit(config_saved=False, err_msg=""):
 
 @post('/save_configuration')
 def config_save():
+    def check_ip(ip):
+        ip, mask = ip.split('/') if '/' in ip else (ip, "32")
+
+        if not mask.isdigit():
+            return None
+        mask = int(mask)
+
+        ip_parts = ip.split('.')
+
+        # 1 - A IPv4 must be composed with the quad-dotted format
+        # 2 - check if the IP is in a valid range
+        # 3 - check if the mask is valid
+        if len(ip_parts) != 4 or \
+           filter(lambda x: not x.isdigit() or int(x) < 0 or int(x) > 255, ip_parts) or \
+           (mask < 0 or mask > 32):
+            return None
+        return ip if mask == 32 else "%s/%s" % (ip, mask)
+
     def bool_eval(name):
         return request.POST.get(name) == "True"
-    def int_default(name, default):
+    def int_port_default(name, default):
         try:
             n = int(request.POST.get(name))
             return n if n > 1024 else default
         except:
             return default
+    def parse_authlist():
+        raw_ip_list = map(strip, request.POST.get('AUTH_WHITELIST', []).split(','))
+        ip_list = filter(None, map(check_ip, raw_ip_list))
+        return ip_list
+
 
     conf = {
         'SHOW_DETAILED_INFO': bool_eval('SHOW_DETAILED_INFO'),
         'SHOW_TODO': bool_eval('SHOW_TODO'),
         'COMMAND_EXECUTION': bool_eval('COMMAND_EXECUTION'),
         'SERVICE_EXECUTION': bool_eval('SERVICE_EXECUTION'),
-        'PORT': int_default('PORT', 8086),
+        'PORT': int_port_default('PORT', 8086),
+        'AUTH_WHITELIST': parse_authlist(),
     }
 
     config.save_configuration(conf)
@@ -355,6 +381,9 @@ def authentication_plugin(callback):
                 return index()
             else:
                 return template('login') # Bad login!
+        # If the IP is whitelisted, let them in
+        elif helpers.in_whitelist(config.AUTH_WHITELIST, bottle.request.remote_addr):
+            return callback(*args, **kwargs)
 
         # You are not authenticated yet or don't have a valid session
         return template('login')

@@ -32,7 +32,7 @@ that gives you a domain name and allows you to share your projects with the Inte
 	<strong>Jan Carreras Prat</strong><br>
 	<span>Barcelona, Catalonia</span><br>
 	<a href="mailto:#">jcarreras@krenel.org</a> <br />
-	<a class="muted" href="http://code.krenel.org/">my other projects</a>
+	<a class="muted" href="https://bitbucket.org/inedit00/">my other projects</a>
 </address>
 
 <hr />
