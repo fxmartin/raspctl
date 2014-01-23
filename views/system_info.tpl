@@ -21,7 +21,7 @@
 		<dd>{{info['PROCESSOR_BOGOMITS']}}</dd>
 		<dt>Current speed (Hz)</dt>
 		<dd>{{info['PROCESSOR_CURRENT_SPEED']}}</dd>
-		<dt>Overcloked speed (MHz)</dt>
+		<dt>Overclocked speed (MHz)</dt>
 		<dd>{{info['PROCESSOR_OVERLOCK'].strip() or '--'}}</dd>
 		<dt>Load Average</dt>
 		<dd>{{info['LOAD_AVG']}}</dd>
