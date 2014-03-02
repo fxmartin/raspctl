@@ -59,7 +59,16 @@
 	<h3 class="text-info">Memory usage</h3>
 	% used = int(float(info['USED_MEMORY']) / float(info['MEMORY_TOTAL']) * 100)
 	% free = int(float(info['FREE_MEMORY']) / float(info['MEMORY_TOTAL']) * 100)
-	% color = "success" if used < 70 else "warning" if used < 85 else "danger"
+	% if used < 70:
+	%   color = "success"
+	% else:
+	%   if used < 85:
+	%     color = "warning"
+	%   else:
+	%     color = "danger"
+	%   end
+	% end
+
 	<div class="progress progress-{{color}}">
 		<div class="bar" style="width: {{used}}%;"></div>
 	</div>
@@ -83,7 +92,15 @@
 		% clean = lambda str: float(filter(lambda x: x.isdigit() or '.' == x, str.replace(',', '.')))
 		% used = int(clean(info['DISK_USED']) / clean(info['DISK_TOTAL']) * 100)
 		% free = int(clean(info['DISK_FREE']) / clean(info['DISK_TOTAL']) * 100)
-		% color = "success" if used < 70 else "warning" if used < 85 else "danger"
+		% if used < 70:
+		%   color = "success"
+		% else:
+		%   if used < 85:
+		%     color = "warning"
+		%   else:
+		%     color = "danger"
+		%   end
+		% end
 		<div class="progress progress-{{color}}">
 			<div class="bar" style="width: {{used}}%;"></div>
 		</div>
