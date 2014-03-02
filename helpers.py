@@ -174,3 +174,11 @@ def in_whitelist(ips, check_ip):
         return (mask & ip_to_int(check_ip)) == network
 
     return any((is_address_in_network(ip, check_ip) for ip in ips ))
+
+def sizeof_pretty(num):
+    num = int(num)
+    for x in ['KB','MB','GB']:
+        if num < 1024.0:
+            return "%3.2f %s" % (num, x)
+        num /= 1024.0
+    return "%3.2f %s" % (num, 'TB')
