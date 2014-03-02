@@ -59,17 +59,26 @@
 	<h3 class="text-info">Memory usage</h3>
 	% used = int(float(info['USED_MEMORY']) / float(info['MEMORY_TOTAL']) * 100)
 	% free = int(float(info['FREE_MEMORY']) / float(info['MEMORY_TOTAL']) * 100)
-	% color = "success" if used < 70 else "warning" if used < 85 else "danger"
+	% if used < 70:
+	%   color = "success"
+	% else:
+	%   if used < 85:
+	%     color = "warning"
+	%   else:
+	%     color = "danger"
+	%   end
+	% end
+
 	<div class="progress progress-{{color}}">
 		<div class="bar" style="width: {{used}}%;"></div>
 	</div>
 	<dl class="dl-horizontal">
 		<dt>Total memory</dt>
-		<dd>{{info['MEMORY_TOTAL']}} K</dd>
+		<dd>{{h.sizeof_pretty(info['MEMORY_TOTAL'])}}</dd>
 		<dt>Used</dt>
-		<dd>{{info['USED_MEMORY']}} K <b>({{used}}%)</b></dd>
+		<dd>{{h.sizeof_pretty(info['USED_MEMORY'])}} <b>({{used}}%)</b></dd>
 		<dt>Free</dt>
-		<dd>{{info['FREE_MEMORY']}} K ({{free}}%)</dd>
+		<dd>{{h.sizeof_pretty(info['FREE_MEMORY'])}} ({{free}}%)</dd>
 	</dl>
 
 	<hr />
@@ -83,17 +92,25 @@
 		% clean = lambda str: float(filter(lambda x: x.isdigit() or '.' == x, str.replace(',', '.')))
 		% used = int(clean(info['DISK_USED']) / clean(info['DISK_TOTAL']) * 100)
 		% free = int(clean(info['DISK_FREE']) / clean(info['DISK_TOTAL']) * 100)
-		% color = "success" if used < 70 else "warning" if used < 85 else "danger"
+		% if used < 70:
+		%   color = "success"
+		% else:
+		%   if used < 85:
+		%     color = "warning"
+		%   else:
+		%     color = "danger"
+		%   end
+		% end
 		<div class="progress progress-{{color}}">
 			<div class="bar" style="width: {{used}}%;"></div>
 		</div>
 		<dl class="dl-horizontal">
 			<dt>Total HDD space</dt>
-			<dd>{{info['DISK_TOTAL']}}</dd>
+			<dd>{{h.sizeof_pretty(info['DISK_TOTAL'])}}</dd>
 			<dt>Used</dt>
-			<dd>{{info['DISK_USED']}} <b>({{used}}%)</b></dd>
+			<dd>{{h.sizeof_pretty(info['DISK_USED'])}} <b>({{used}}%)</b></dd>
 			<dt>Free</dt>
-			<dd>{{info['DISK_FREE']}} ({{free}}%)</dd>
+			<dd>{{h.sizeof_pretty(info['DISK_FREE'])}} ({{free}}%)</dd>
 		</dl>
 	% end
 

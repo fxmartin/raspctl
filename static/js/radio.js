@@ -1,7 +1,7 @@
 add_events = function() {
 	$('#radios a').on('click', null, undefined, function(ev) {
 		ev.preventDefault();
-		// I fucking love this ugly hacks =D
+		// I love this ugly hacks =D
 		var stream = $(ev.currentTarget).parents('tr').find('.stream')[0].value;
 		var href = ev.currentTarget.href;
 		$.get(href + stream, function() {});
