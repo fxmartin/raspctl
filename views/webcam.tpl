@@ -21,7 +21,7 @@
 
 
 % if not fswebcam_is_installed:
-	<span class="text-error">Shit happens! In order to use the webcam you need to have installed <b>fswebcam</b> package. You can install it by doing <b>sudo aptitude update && sudo aptitude install fswebcam</b>. After that, you must check that the user you are using for executing RaspCTL is in VIDEO group. You can check that executing the command <b>"groups | grep video"</b>; if you don't have any result you must execute <b>sudo adduser $USER video</b> and reboot the Raspberry Pi. </span>
+	<span class="text-error">An error occurred! In order to use the webcam you need to have installed <b>fswebcam</b> package. You can install it by doing <b>sudo aptitude update && sudo aptitude install fswebcam</b>. After that, you must check that the user you are using for executing RaspCTL is in VIDEO group. You can check that executing the command <b>"groups | grep video"</b>; if you don't have any result you must execute <b>sudo adduser $USER video</b> and reboot the Raspberry Pi. </span>
 % end
 
 
