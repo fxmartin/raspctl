@@ -7,6 +7,7 @@ import storage
 # working directory can point to anywhere and sys.path[0] will still be set
 # correctly.
 ROOT = sys.path[0]
+PATH_SESSION = "/tmp/.raspctl_session_"
 
 default_config = {
     "SHOW_DETAILED_INFO": False,
@@ -15,6 +16,7 @@ default_config = {
     "SERVICE_EXECUTION": True,
     "SERVICES_FAVORITES": [],
     "PORT": 8086,
+    "AUTH_WHITELIST": [],
 }
 
 SERVICE_VALID_ACTIONS = ("reload", "start", "stop", "restart", "status")

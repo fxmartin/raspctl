@@ -15,7 +15,7 @@
 # How it works? The script itself must be in /opt/raspctl [1] with the user/group root:root
 # and with 755 permissions [2]. Then, we must allow the user that will run RaspCTL to execute
 # this command without asking any password. We will do it with /etc/sudoers. I WARN you,
-# if you make a mistake when editing this file - a single typo - you will be fucked up. So
+# if you make a mistake when editing this file - a single typo - you will be f****d up. So
 # PLEASE use "visudo" command [3] for edit this file, is the right way of doing it. You must
 # add a line just like the described above [4] where "rasptcl_user" must be changed by the
 # user that runs RaspCTL (you can know that by executing this [5]). And pretty much this is it.
@@ -23,7 +23,7 @@
 
 # One more thing. Every time you pull from the repo new code, exists the possibility that
 # changes has been made to this file. How do you know if the file has changed or not? You
-# don't. And yep, this is fucking annoying but I'll figure out a better way to let you know
+# don't. And yep, this is f*****g annoying but I'll figure out a better way to let you know
 # that you need to "deploy" this file again.
 
 
@@ -53,7 +53,7 @@ case $1 in
 		sudo /etc/init.d/$2 $3
 		;;
 	"test" )
-		sudo echo "Yey! It works, fucker!"
+		sudo echo "Yey! It works!"
 		;;
 	"deploy" )
 		echo "Creating directory..."
