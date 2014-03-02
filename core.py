@@ -227,7 +227,7 @@ def system_info():
         temp['c'] = float(system_info['TEMPERATURE'])
         temp['f'] = celsius_to_fahrenheit(temp['c'])
 
-    return template("system_info", info=system_info, temp=temp)
+    return template("system_info", info=system_info, temp=temp, h=helpers)
 
 @get('/radio')
 def radio(successfully_saved=False):

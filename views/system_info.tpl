@@ -65,11 +65,11 @@
 	</div>
 	<dl class="dl-horizontal">
 		<dt>Total memory</dt>
-		<dd>{{info['MEMORY_TOTAL']}} K</dd>
+		<dd>{{h.sizeof_pretty(info['MEMORY_TOTAL'])}}</dd>
 		<dt>Used</dt>
-		<dd>{{info['USED_MEMORY']}} K <b>({{used}}%)</b></dd>
+		<dd>{{h.sizeof_pretty(info['USED_MEMORY'])}} <b>({{used}}%)</b></dd>
 		<dt>Free</dt>
-		<dd>{{info['FREE_MEMORY']}} K ({{free}}%)</dd>
+		<dd>{{h.sizeof_pretty(info['FREE_MEMORY'])}} ({{free}}%)</dd>
 	</dl>
 
 	<hr />
@@ -89,11 +89,11 @@
 		</div>
 		<dl class="dl-horizontal">
 			<dt>Total HDD space</dt>
-			<dd>{{info['DISK_TOTAL']}}</dd>
+			<dd>{{h.sizeof_pretty(info['DISK_TOTAL'])}}</dd>
 			<dt>Used</dt>
-			<dd>{{info['DISK_USED']}} <b>({{used}}%)</b></dd>
+			<dd>{{h.sizeof_pretty(info['DISK_USED'])}} <b>({{used}}%)</b></dd>
 			<dt>Free</dt>
-			<dd>{{info['DISK_FREE']}} ({{free}}%)</dd>
+			<dd>{{h.sizeof_pretty(info['DISK_FREE'])}} ({{free}}%)</dd>
 		</dl>
 	% end
 
