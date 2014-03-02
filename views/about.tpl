@@ -5,14 +5,14 @@
 
 <hr />
 
-<p> <b>RaspCTL</b> is weekend side project. I needed an easy way to control my new Raspberry Pi and I decided to create a web admin for doing so. Basically I wanted to be able to execute <a href="/commands">commands</a> in a easy way, see some <a href="/">statics</a> about what's going on on the RaspPi, and later on I decided that it would be funny add a simple <a href="/webcam">webcam</a> support for taking snapshots and see what's going on in my room when I'm out (always absolutely nothing, of course....) </p>
+<p> <b>RaspCTL</b> is side project. I needed an easy way to control my new Raspberry Pi and I decided to create a web admin for doing so. Basically I wanted to be able to execute <a href="/commands">commands</a> in a easy way, see some <a href="/">statics</a> about what's going on on the RaspPi, and later on I decided that it would be fun add a simple <a href="/webcam">webcam</a> support for taking snapshots and see what's going on in my room when I'm out (always absolutely nothing, of course....) </p>
 
 <hr />
 
 <div class="span4">
 	<img width="90%" height="90%" src="/static/img/me.jpg" alt="Me, myself and I" class="img-circle" />
 </div>
-<p> This is me. Now that we now each other better I want to let you know that this is an <b>Open Source project</b> under <b>GLP 3 license</b> (see COPYING file) and <b>you are free to <a href="https://bitbucket.org/inedit00/raspctl">fork</a> the project</b> and do whatever you want with it. If you are using this software I <b>would really appreciate</b> you to sent me an mail explaining (breafly, if you want) how are you using it.  </p>
+<p> This is me. Now that we now each other better I want to let you know that this is an <b>Open Source project</b> under <b>GLP 3 license</b> (see COPYING file) and <b>you are free to <a href="https://bitbucket.org/inedit00/raspctl">fork</a> the project</b> and do whatever you want with it. If you are using this software I <b>would really appreciate</b> you to sent me an mail explaining (briefly, if you want) how are you using it.  </p>
 
 <p> If you like the idea of RaspCTL and you want to improve it <b>send me patches</b> (via mail or BitBucket) and I'll be really happy. And if you would like to have a functionality in RaspCTL and you don't know how to implement it, <b>let me know what do you need</b> I'll be very glad of trying to help you out (maybe I will develop what you are requesting if I find it interesting/useful enough).</p>
 

@@ -227,7 +227,7 @@ def system_info():
         temp['c'] = float(system_info['TEMPERATURE'])
         temp['f'] = celsius_to_fahrenheit(temp['c'])
 
-    return template("system_info", info=system_info, temp=temp)
+    return template("system_info", info=system_info, temp=temp, h=helpers)
 
 @get('/radio')
 def radio(successfully_saved=False):
@@ -348,7 +348,7 @@ def index():
 
 
 def authentication_plugin(callback):
-    # Ok, let's be clear at this point. I fucking hate all the authentication
+    # Ok, let's be clear at this point. I f****g hate all the authentication
     # stuff. I'm sick of it. The problem is that I don't want to have more
     # dependencies and thats with what I've end up. Can you improved without
     # adding a new dependency? Please make me the favor and do it!
